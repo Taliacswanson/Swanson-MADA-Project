@@ -41,9 +41,10 @@ This will load the SDWA public water systems datatset and the RUCA ZIP code clas
 library(tidyverse)
 library(here)
 
+
 # Load datasets
-systems <- read_csv(here("data", "raw-data", "SDWA_PUB_WATER_SYSTEMS.csv"))
-ruca <- read_csv(here("data", "raw-data", "RUCA-codes-2020-zipcode.csv"))
+systems <- read_csv("../../data/raw-data/SDWA_PUB_WATER_SYSTEMS.csv")
+ruca <- read_csv("../../data/raw-data/RUCA-codes-2020-zipcode.csv")
 
 glimpse(systems)
 glimpse(ruca)
