@@ -27,7 +27,7 @@ The outcome of interest is the occurence of drinking water quality violations (e
 {{< pagebreak >}}
 
 
-# Methods/Planned Analysis Approach 
+# Methods/Planned Analysis Approach ( Part 1 )
 
 The analysis will begin with data cleaning and processing, including filtering for Georgia water systems, merging system and violation datasets, and handling missing values. Exploratory data analysis will be used to examine distributions, identify patterns, and visualize difference in violations between rural and urban systems. 
 
@@ -43,8 +43,8 @@ library(here)
 
 
 # Load datasets
-systems <- read_csv("../../data/raw-data/SDWA_PUB_WATER_SYSTEMS.csv")
-ruca <- read_csv("../../data/raw-data/RUCA-codes-2020-zipcode.csv")
+systems <- read_csv(here("data/raw-data/SDWA_PUB_WATER_SYSTEMS.csv"))
+ruca <- read_csv(here("data/raw-data/RUCA-codes-2020-zipcode.csv"))
 
 glimpse(systems)
 glimpse(ruca)
@@ -158,9 +158,163 @@ ggplot(violation_summary, aes(x = factor(Violation_Count), y = Number_of_Systems
   theme_minimal()
 ```
 
+# Inferential Statistical Analysis( Part 2 )
+Moving forward to formally evaluate whether rural public water systems in Georgia are more likely to experience drinking water violations compared to urban systems, a multivariable logistic regression model was fit. The outcome of interest was whether a system experienced at least one violation. The primary predictor of interest was rural versus urban classification. The model additionally adjusted for population served and water system type to account for potential confounding.
 
+## Creating System-Level Violation Counts
+This step aggregates violation records to the system level and merges them back into the Georgia water system dataset. Systems with no recorded violations are assigned a count of zero.
 
+```{r}
+# Count violations per system
+violation_counts <- violations_ga %>%
+  group_by(PWSID) %>%
+  summarise(violation_count = n())
 
+# Merge violation counts back to data
+analysis_data <- systems_ga %>%
+  left_join(violation_counts, by = "PWSID") %>%
+  mutate(
+    violation_count = ifelse(is.na(violation_count), 0, violation_count)
+  )
+```
 
+## Merging Rural-Urban Classification
+This step merges the RUCA ZIP code classification dataset to the system-level dataset. Rural classification was defined using RUCA codes, where codes ≥ 4 were classified as rural and codes 1–3 were classified as urban.
+```{r}
+analysis_data <- analysis_data %>%
+  mutate(ZIP_CODE = as.character(ZIP_CODE))
 
+ruca <- ruca %>%
+  mutate(ZIPCode = as.character(ZIPCode))
+```
 
+```{r}
+# Merge RUCA classification (to RUCS ZIPCode)
+analysis_data <- analysis_data %>%
+  left_join(ruca, by = c ("ZIP_CODE" = "ZIPCode"))
+```
+
+```{r}
+# Create rural indicator (based on PrimaryRUCA codes, zipcodes without match code are left as NA (n=1417)
+analysis_data <- analysis_data %>%
+  mutate(
+    rural = ifelse(PrimaryRUCA >= 4, 1, 0)
+  )
+```
+```{r}
+# Check the first few rows 
+head(analysis_data %>% select(ZIP_CODE, PrimaryRUCA, rural))
+
+# Check how many rural rows you have
+table(analysis_data$rural, useNA = "ifany")
+```
+
+Rural indicator (rural) was created using the PrimaryRUCA codes from the RUCA ZIPCode dataset. For ZIP codes in the water systems data that did not have a corresponding RUCA code, the rural value is NA. These NA values are currently kept in the dataset to indicate missing RUCA information. However, we will decided to remove them to ensure accurate rural-urban classification.
+
+```{r}
+# Remove systems with missing rural classification
+analysis_data <- analysis_data %>%
+  filter(!is.na(rural))
+
+# Check updated counts
+table(analysis_data$rural)
+nrow(analysis_data)
+```
+
+## Creating A Binary Outcome System 
+We will create a binary outcome variable to indicate whether a water system had at least one recorded drinking water violation (1 = yes, 0 = no). Among the Georgia public water systems included in the sample, 8.5% experienced at least one recorded drinking water violation, while 91.5% had no recorded violations. This indicates that violations were relatively uncommon overall, though measurable subset of systems were affected.
+```{r}
+# Create binary violation indicator
+analysis_data <- analysis_data %>%
+  mutate(
+    any_violation = ifelse(violation_count > 0, 1, 0)
+  )
+
+# Check distribution
+table(analysis_data$any_violation)
+prop.table(table(analysis_data$any_violation))
+```
+
+## Preparing Modeling Variables
+Before fitting the logistics regression model, several variable were prepared and transformed
+  * Population served was filtered to exlcude systems reporting zero population. Additionally, it was log transofmed to account of the strong right skew observed in the raw population distribution.
+  * Rural status, violations, and water system type were coverted to categorical variables.
+  
+```{r}
+# We need our modeling variables 
+analysis_data <- analysis_data %>%
+  filter(POPULATION_SERVED_COUNT > 0) %>%          # removing systems that report serving n=0
+  mutate(
+    log_population = log(POPULATION_SERVED_COUNT), # log transformation, orignal graph skewed right
+    rural = as.factor(rural),                      # rural as categorical
+    any_violation = as.factor(any_violation),      # violation as categorical
+    PWS_TYPE_CODE = as.factor(PWS_TYPE_CODE)       # water system as categorical
+  )
+
+# summary statistics of our log transformation
+summary(analysis_data$log_population)
+```
+
+## Fitting the Regression Model
+Next, we fit a multivariable logistic regression to evaluate whether rural systems are more likely to have at least one violation, adjusting for population served and system type. The results are summarized by obtaining odds ratios (OR) and 95% confidence intervals (CI):
+  * Rural systems (rural=1) had 1.84 times the odds of experiencing at least one violation (95% CI: 1.46, 2.33)
+  * Population served presented an odds ratio of 1.15 per unit increase (95% CI:1.08, 1.22) indicating that larger water systems tend to have slightly higher odds of recording a violation.
+  * Community water systems comparison (CWS)
+    * Non-transient non-community systems (NTNCWS) had lower odds (OR=0.37) of violations (95% CI: 0.21-0.61)
+    * Transient non-community systems (TNCWS)
+    similarly had lower odds (OR=0.51) of violations (95% CI:0.39-0.68)
+
+Overall, the model indicates that rural systems are at higher risk for drinking water violations when accounting for system type and the population served. 
+
+```{r}
+# Are rural systems more likely to have at least one violation
+model1 <- glm(
+  any_violation ~ rural + log_population + PWS_TYPE_CODE, 
+  data = analysis_data,
+  family = binomial 
+)
+
+# View model summary: coefficients, standard errors, z-values, and p-values
+summary(model1)
+
+# Odds ratios
+exp_coef <- exp(cbind(
+  OR = coef(model1),                       
+  confint(model1)             # 95% CI for coefficients
+))
+
+exp_coef
+
+# Summarize the logistic regression results
+summary(model1)
+
+```
+
+## Generating a Logistic Regression Model
+To visualize the results of the logistic regression model, we create a forest plot displaying the odds ratios for each predictor. This allows for a clear comparison of the direction of associations between rural status, population served, system type, and the likelihood of having at least one drinking water violation.
+```{r}
+# Load required package
+library(ggplot2)
+library(dplyr)
+library(broom)
+
+# Get tidy regression results with ORs and 95% CI
+tidy_model <- tidy(model1, exponentiate = TRUE, conf.int = TRUE)
+
+# Remove intercept for plotting, we don't need this
+tidy_model_plot <- tidy_model %>%
+  filter(term != "(Intercept)")
+
+# Create forest plot of ORs
+ggplot(tidy_model_plot, aes(x = term, y = estimate)) +
+  geom_point(size = 3, color = "steelblue") +               # OR points
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high),    # 95% CI
+                width = 0.2, color = "steelblue") +
+  coord_flip() +                                           # flip
+  labs(
+    title = "Odds Ratios for Logistic Regression Predictors",
+    x = "Predictor",
+    y = "Odds Ratio (95% CI)"
+  ) +
+  theme_minimal()
+```
