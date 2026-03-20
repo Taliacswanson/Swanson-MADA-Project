@@ -1,107 +1,247 @@
----
-title: "An example exploratory analysis script"
-date: "2024-02-07"
-output: html_document
----
 
-  
-  
-This Quarto file loads the cleaned data and does some exploring.
+# ============================================================
+# An Analysis of Rural-Urban Differences in
+# Drinking Water System Violations in Georgia
+# Author: Talia C. Swanson
+# ============================================================
 
-This version has the code inside the Quarto file itself.
+#Project Part 1
 
-Also note that while cleaning and exploring is split here, this is iterative. You saw that as part of the processing, we already had to explore the data somewhat to understand how to clean it. In general, as you explore, you'll find things that need cleaning. As you clean, you can explore more. Therefore, at times it might make more sense to combine the cleaning and exploring code parts into a single R or Quarto file. Or split things in any other logical way.
-
-As part of the exploratory analysis, you should produce plots or tables or other summary quantities for the most interesting/important quantities in your data. Depending on the total number of variables in your dataset, explore all or some of the others. Figures produced here might be histograms or density plots, correlation plots, etc. Tables might summarize your data.
-
-Start by exploring one variable at a time. Then continue by creating plots or tables of the outcome(s) of interest and the predictor/exposure/input variables you are most interested in. If your dataset is small, you can do that for all variables. 
-
-Plots produced here can be scatterplots, boxplots, violinplots, etc. Tables can be simple 2x2 tables or larger ones.
-
-# Setup
-
-```{r}
-#load needed packages. make sure they are installed.
-library(here) #for data loading/saving
-library(dplyr)
-library(skimr)
+Here we load all necessary R packages for data wrangling, plotting, and tidying model results.
+# -----------------------------
+# Load Required Packages
+# -----------------------------
+library(tidyverse)
+library(here)
+library(broom)
 library(ggplot2)
+
+# 1. LOAD DATA
+# ----------------------------------------------------------------------------
+This will import the public water system data, violation records, and rural-urban ZIP code classification for Georgia.
+```{r}
+systems <- read_csv(here("data/raw-data/SDWA_PUB_WATER_SYSTEMS.csv"))
+violations <- read_csv(here("data/raw-data/SDWA_PN_VIOLATION_ASSOC.csv"))
+ruca <- read_csv(here("data/raw-data/RUCA-codes-2020-zipcode.csv"))
+```
+
+# 2. FILTER FOR GEORGIA SYSTEMS
+# -----------------------------------------------------------------------------
+
+This will subset the data to only include water systems located in Georgia and check the resulting sample size.
+```{r}
+systems_ga <- systems %>%
+  filter(STATE_CODE == "GA")
+
+nrow(systems_ga)   # sample size check
+```
+
+# 3. EXPLORATORY DATA ANALYSIS
+# -----------------------------------------------------------------------------
+This step summarizes the types of water systems present and visualize their counts with a bar plot 
+```{r}
+# ---- System Type Counts ----
+systems_ga %>%
+  count(PWS_TYPE_CODE, sort = TRUE)
+
+ggplot(systems_ga, aes(x = PWS_TYPE_CODE)) +
+  geom_bar(fill = "steelblue") +
+  labs(
+    title = "Count of Public Water System Types in Georgia",
+    x = "Water System Type",
+    y = "Number of Systems"
+  )
 ```
 
 
-Load the data.
+# 4. POPULATION SERVED SUMMARY
+This will examine the distribution of the population served across water systems. A log-scaled histogram shows that most systems serve relatively small populations, with a few large outliers
 
 ```{r}
-#Path to data. Note the use of the here() package and not absolute paths
-data_location <- here::here("data","processed-data","processeddata.rds")
-#load data
-mydata <- readRDS(data_location)
+# ---- Population Summary ----
+summary(systems_ga$POPULATION_SERVED_COUNT)
+
+# ---- Population Distribution ----
+systems_ga_filtered <- systems_ga %>%
+  filter(POPULATION_SERVED_COUNT > 0)
+
+ggplot(systems_ga_filtered,
+       aes(x = POPULATION_SERVED_COUNT)) +
+  geom_histogram(bins = 40) +
+  scale_x_log10(
+    breaks = c(10, 100, 1000, 10000, 100000),
+    labels = c("10", "100", "1,000", "10,000", "100,000")
+  ) +
+  labs(
+    title = "Distribution of Population Served by Public Water Systems in Georgia",
+    x = "Population Served",
+    y = "Number of Systems"
+  )
+```
+
+# 5. CREATE SYSTEM-LEVEL VIOLATION COUNTS
+# -----------------------------------------------------------------------------
+Here we examine the distribution of the population served across water systems. A log-scaled histogram shows that most systems serve relatively small populations, with a few large outliers
+```{r}
+violations_ga <- violations %>%
+  inner_join(systems_ga %>% select(PWSID), by = "PWSID")
+
+violation_counts <- violations_ga %>%
+  group_by(PWSID) %>%
+  summarise(violation_count = n(), .groups = "drop")
+
+violation_summary <- violation_counts %>%
+  count(violation_count) %>%
+  rename(Number_of_Systems = n,
+         Violation_Count = violation_count)
+
+print(violation_summary)
+
+ggplot(violation_summary,
+       aes(x = factor(Violation_Count),
+           y = Number_of_Systems)) +
+  geom_bar(stat = "identity", fill = "darkred") +
+  labs(
+    title = "Distribution of Drinking Water Violations per Public Water System in Georgia",
+    x = "Number of Violations",
+    y = "Number of Water Systems"
+  ) +
+  theme_minimal()
 ```
 
 
+#Project Part 2
 
-
-
-# Data exploration through tables
-
-Showing a bit of code to produce and save a summary table.
-
+# 6. MERGE VIOLATIONS BACK TO SYSTEM DATA
+# -----------------------------------------------------------------------------
+Violation records are aggregated to the system level. We summarize and plot how many systems have zero, one, or multiple violations.
 
 ```{r}
-summary_df = skimr::skim(mydata)
-print(summary_df)
-# save to file
-summarytable_file = here("results", "tables", "summarytable.rds")
-saveRDS(summary_df, file = summarytable_file)
+analysis_data <- systems_ga %>%
+  left_join(violation_counts, by = "PWSID") %>%
+  mutate(
+    violation_count = ifelse(is.na(violation_count), 0, violation_count)
+  )
 ```
 
-We are saving the results to the `results` folder. Depending on how many tables/figures you have, it might make sense to have separate folders for each. And/or you could have separate folders for exploratory tables/figures and for final tables/figures. Just choose a setup that makes sense for your project and works for you, and provide enough documentation that someone can understand what you are doing.
 
-
-# Data exploration through figures
-
-Histogram plots for the continuous outcomes. 
-
-Height first.
-
+# 7. MERGE RUCA & RURAL-URBAN CLASSIFICATION
+# -----------------------------------------------------------------------------
+We join RUCA ZIP code classifications to label each system as rural or urban. Missing values are removed.
 ```{r}
-p1 <- mydata %>% ggplot(aes(x=Height)) + geom_histogram() 
-plot(p1)
-figure_file = here("results", "figures","height-distribution.png")
-ggsave(filename = figure_file, plot=p1) 
+analysis_data <- analysis_data %>%
+  mutate(ZIP_CODE = as.character(ZIP_CODE))
+
+ruca <- ruca %>%
+  mutate(ZIPCode = as.character(ZIPCode))
+
+analysis_data <- analysis_data %>%
+  left_join(ruca, by = c("ZIP_CODE" = "ZIPCode")) %>%
+  mutate(
+    rural = ifelse(PrimaryRUCA >= 4, 1, 0)
+  )
+
+table(analysis_data$rural, useNA = "ifany")
+
+analysis_data <- analysis_data %>%
+  filter(!is.na(rural))
 ```
 
-Now weights.
-
+# 8. CREATE BINARY VIOLATION OUTCOME
+# -----------------------------------------------------------------------------
+We join RUCA ZIP code classifications to label each system as rural or urban. Missing values are removed.
 ```{r}
-p2 <- mydata %>% ggplot(aes(x=Weight)) + geom_histogram() 
-plot(p2)
-figure_file = here("results", "figures","weight-distribution.png")
-ggsave(filename = figure_file, plot=p2) 
+analysis_data <- analysis_data %>%
+  mutate(
+    any_violation = ifelse(violation_count > 0, 1, 0)
+  )
+
+table(analysis_data$any_violation)
+prop.table(table(analysis_data$any_violation))
 ```
 
-Now height as function of weight.
-
+# 9. PREPARE VARIABLES
+# -----------------------------------------------------------------------------
+A binary variable is created to indicate whether a system has any violations. We also check the distribution of this variable.
 ```{r}
-p3 <- mydata %>% ggplot(aes(x=Height, y=Weight)) + geom_point() + geom_smooth(method='lm')
-plot(p3)
-figure_file = here("results", "figures", "height-weight.png")
-ggsave(filename = figure_file, plot=p3) 
+analysis_data <- analysis_data %>%
+  filter(POPULATION_SERVED_COUNT > 0) %>%
+  mutate(
+    log_population = log(POPULATION_SERVED_COUNT),
+    rural = as.factor(rural),
+    any_violation = as.factor(any_violation),
+    PWS_TYPE_CODE = as.factor(PWS_TYPE_CODE)
+  )
+
+summary(analysis_data$log_population)
+
+# Save processed dataset
+write_csv(
+  analysis_data,
+  here("data/processed-data/analysis_data.csv")
+)
 ```
 
-Once more height as function of weight, stratified by gender. Note that there is so little data, it's a bit silly. But we'll plot it anyway.
-
+# 10. FIT LOGISTIC REGRESSION MODEL
+# ------------------------------------------------ 
+Variables are transformed for analysis. Population is log-transformed, and categorical variables are set for modeling.
 ```{r}
-p4 <- mydata %>% ggplot(aes(x=Height, y=Weight, color = Gender)) + geom_point() + geom_smooth(method='lm')
-plot(p4)
-figure_file = here("results", "figures", "height-weight-stratified.png")
-ggsave(filename = figure_file, plot=p4) 
+model1 <- glm(
+  any_violation ~ rural + log_population + PWS_TYPE_CODE,
+  data = analysis_data,
+  family = binomial
+)
+
+summary(model1)
 ```
 
+# 10. ODDS RATIOS + 95% CI
+# -----------------------------------------------------------------------------
+The model output is converted to odds ratios with confidence intervals and saved for reporting.
+```{r}
+model_results <- tidy(
+  model1,
+  exponentiate = TRUE,
+  conf.int = TRUE
+)
 
+print(model_results)
 
-# Notes
+write_csv(
+  model_results,
+  here("data/processed-data/logistic_regression_results.csv")
+)
+```
 
-For your own explorations, tables and figures can be "quick and dirty". As long as you can see what's going on, there is no need to polish them. That's in contrast to figures you'll produce for your final products (paper, report, presentation, website, etc.). Those should look as nice, polished and easy to understand as possible.
+# 11. FOREST PLOT
+# -----------------------------------------------------------------------------
+The model output is converted to odds ratios with confidence intervals and saved for reporting.
+```{r}
+model_plot_data <- model_results %>%
+  filter(term != "(Intercept)")
+
+forest_plot <- ggplot(model_plot_data,
+                      aes(x = term, y = estimate)) +
+  geom_point(size = 3) +
+  geom_errorbar(aes(ymin = conf.low,
+                    ymax = conf.high),
+                width = 0.2) +
+  coord_flip() +
+  labs(
+    title = "Odds Ratios for Logistic Regression Predictors",
+    x = "Predictor",
+    y = "Odds Ratio (95% CI)"
+  ) +
+  theme_minimal()
+
+print(forest_plot)
+
+ggsave(
+  filename = here("products/manuscript/forest_plot.png"),
+  plot = forest_plot,
+  width = 8,
+  height = 6
+)
+```
 
 

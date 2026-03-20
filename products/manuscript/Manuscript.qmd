@@ -6,6 +6,8 @@ format:
     toc: false
     number-sections: true
     highlight-style: github
+execute: 
+  echo: false
 bibliography: ../../assets/dataanalysis-references.bib
 csl: ../../assets/american-journal-of-epidemiology.csl
 ---
@@ -253,6 +255,9 @@ analysis_data <- analysis_data %>%
 
 # summary statistics of our log transformation
 summary(analysis_data$log_population)
+
+# saving your processed data
+write_csv(analysis_data, here("data", "processed-data", "analysis_data.csv"))
 ```
 
 ## Fitting the Regression Model
