@@ -11,30 +11,6 @@ execute:
 bibliography: ../../assets/dataanalysis-references.bib
 csl: ../../assets/american-journal-of-epidemiology.csl
 ---
-# Abstract
-
-# Introduction
-## Background
-
-## Research Question
-This analysis evaulate wether rural public water systems in Georgia are more likely to experience drinking water quality violations compared to urban water systems. The primary outcome of interest is the occurence of at least one drinking water violation per system. The primary predictor is rural versus irban classiication of the water system's service area. Additional system-level factors, inclduing population served and system type, are considered as potential confounders.
-
-# Methods
-## Data Source
-The primary data source is the Safe Drinking Information System (SWDIS), mainted by the Environmental Protection Agency (EPA). SDWIS collect information from public water systems and state primacy agencies, including characteristics, populations sevred, ownership type, geographic location, and violaton records. Two SDWIS datasets were used: ne containing system-level information and the other documenting violation-level records. Rural-urban classification was assigned using the 202 RUCA ZIP code dataset.
-
-## Study Population
-Water systems located in Geogria were included resulting in 5,256 systems categorized by type.
-
-## Outcome and Predictor Variable 
-  * Outcome:
-  * Primary Predictor:
-  * Covariates: 
-
-## Statistical Analysis
-Descriptive statistics sumarized system charcaters and violation distributions. Difference in violations by rural-urban status were visulaized using bar plots and histograms.
-
-A multivariable logistics regression was conducted to estimate the association between rural status and the likelihood of at least one drinking water violation, adjusting for log tranfromed population and system type. Odds ratios (OR) and 95% confidence intervals (CI) were calculated.
 
 ## Description of data and data source
 The primary data source for this project is the Safe Drinking Water Infromation System (SDWIS) maintianed by the Environmental Protection Agency (EPA). SDWIS is a national databased maintained by the EPA to monitor compliance with the Safe Drinking Water Act. The data are collected through reports submitted by public water systems and state primacy agencies, including detailed information on water system characteristics and drinking water violations.
