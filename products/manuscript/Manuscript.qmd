@@ -8,68 +8,69 @@ format:
     highlight-style: github
 execute: 
   echo: false
+  warning: false
+  message: false
 bibliography: ../../assets/dataanalysis-references.bib
-csl: ../../assets/american-journal-of-epidemiology.csl
+
 ---
+
 # Abstract
 
+
 # Introduction
+
 ## Background
+Access to safe drinking water is a fundamental public health priority in the United States^1^. While most public water systems comply with federal and state regulations, disparities exist in water quality outcomes across georgraphic regions. Rural communities often face unique challenges, including limited infrastructure, smaller economies of scale, and reduced regulatory oversight, which may contribute to increased risk of drinking water violations^2,3^. In Georgia, the distribution of public water systems spans urban centers as well as rural areas with small and isolated populations. Understanding whether rural water systems are more likely to experience violations compared to urban systems is critical for identifying areas in need of additional support, inform regulatory priorities, and guding interventions to ensure equitable access to safe drinking water^4^. 
 
 ## Research Question
-This analysis evaulate wether rural public water systems in Georgia are more likely to experience drinking water quality violations compared to urban water systems. The primary outcome of interest is the occurence of at least one drinking water violation per system. The primary predictor is rural versus irban classiication of the water system's service area. Additional system-level factors, inclduing population served and system type, are considered as potential confounders.
+This analysis evaluated whether rural public water systems in Georgia are more likely to experience drinking water quality violations compared to urban water systems. The primary outcome of interest was the occurrence of at least one drinking water violation per system. The primary predictor was rural versus urban classification of the water system's service area. Additional system-level factors, including population served and system type, are considered as potential confounders.
 
 # Methods
 ## Data Source
-The primary data source is the Safe Drinking Information System (SWDIS), mainted by the Environmental Protection Agency (EPA). SDWIS collect information from public water systems and state primacy agencies, including characteristics, populations sevred, ownership type, geographic location, and violaton records. Two SDWIS datasets were used: ne containing system-level information and the other documenting violation-level records. Rural-urban classification was assigned using the 202 RUCA ZIP code dataset.
+The primary data source is the Safe Drinking Information System (SDWIS), maintained by the Environmental Protection Agency (EPA). SDWIS collected information from public water systems and state primacy agencies, including characteristics, populations served, ownership type, geographic location, and violation records. Two SDWIS datasets were used: one containing water information and the other documenting violation-level records. Rural-urban classification was assigned using the 2010 RUCA ZIP code dataset.
 
 ## Study Population
-Water systems located in Geogria were included resulting in 5,256 systems categorized by type.
+The study population consisted of public water systems located in Georgia. Systems were identified using the Safe Drinking Water Information System (SDWIS) database maintained by the Environmental Protection Agency. After restricting the data to systems located in Georgia, a total of 5,256 public water systems were included in the analysis. These systems were categorized by water system type, including community water systems, transient non-community water systems, and non-transient non-community water systems.
 
 ## Outcome and Predictor Variable 
-  * Outcome:
-  * Primary Predictor:
-  * Covariates: 
+  Outcome:
+  The primary outcome was whether a public water system in Georgia experienced at least one recorded drinking water quality violation.
+
+  Primary Predictor: 
+  The primary predictor was the rural versus urban classification of the water system’s service area. Rural–urban status was assigned using Rural–Urban Commuting Area (RUCA) ZIP code classifications.
+    * RUCA Codes ≥ 4 were defined as rural areas
+    * RUCA Codes 1-3 were defined as urban
+ 
+ Covariates:
+Additional covariates included water system type (community, transient non-community, or non-transient non-community) and the population served. Population served was log-transformed to account for the highly skewed distribution of system size.
 
 ## Statistical Analysis
-Descriptive statistics sumarized system charcaters and violation distributions. Difference in violations by rural-urban status were visulaized using bar plots and histograms.
+Descriptive statistics were used to summarize characteristics of the public water systems included in the study population. These summaries included counts of water systems by system type and distributional characteristics of the population served.
 
-A multivariable logistics regression was conducted to estimate the association between rural status and the likelihood of at least one drinking water violation, adjusting for log tranfromed population and system type. Odds ratios (OR) and 95% confidence intervals (CI) were calculated.
+Exploratory data analysis was conducted to examine patterns in the distribution of drinking water violations and system characteristics. Visualizations were used to evaluate variation in system size and to explore potential differences between rural and urban systems.
+
+To evaluate the association between rural status and the likelihood of experiencing a drinking water violation, a multivariable logistic regression model was fit. The model estimated the odds of experiencing at least one violation while adjusting for water system type and the log-transformed population served. Model results were summarized using odds ratios (OR) and corresponding 95% confidence intervals (CI).
 
 ## Description of data and data source
-The primary data source for this project is the Safe Drinking Water Infromation System (SDWIS) maintianed by the Environmental Protection Agency (EPA). SDWIS is a national databased maintained by the EPA to monitor compliance with the Safe Drinking Water Act. The data are collected through reports submitted by public water systems and state primacy agencies, including detailed information on water system characteristics and drinking water violations.
+The primary data source for this project is the Safe Drinking Water Information System (SDWIS) maintained by the Environmental Protection Agency (EPA). SDWIS is a national database maintained by the EPA to monitor compliance with the Safe Drinking Water Act. The data were collected through reports submitted by public water systems and state primacy agencies, including detailed information on water system characteristics and drinking water violations.
 
-Two primary SDWIS datasets will be used with the first containg water system-level information inclduing system identification, numbers, system type, population served, geographic location, and ownership characteristics. The second dataset includes violation level records, documenting containment, violation type and dates.
+Two primary SDWIS datasets were used: the first contains water system-level information including system identification numbers, system type, population served, geographic location, and ownership characteristics. The second dataset includes violation level records, documenting containment, violation type and dates.
 
 ## Questions/Hypotheses to be addressed
 The primary research question for this project is:
 
-Are rural public water systems in Georgia more likely to experience drinking water quality violations compared to urban water systems?
+Are rural public water systems in Georgia more likely to experience drinking water quality violations compared to urban water systems? The outcome of interest is the occurrence of drinking water quality violations (either as a binary indicator or collective count of violations per system). The primary predictor of interest is rural versus urban area classification of the water system's service area. The analysis explored patterns in violation frequency and distribution across rural and urban systems and assesses whether disparities persist after accounting for system and community characteristics. 
 
-The outcome of interest is the occurence of drinking water quality violations (either as a binary indicator or collective count of violations per system). The primary predictor of interest is rural versus urban area classification of the water system's service area. The analysis will explore patterns in violation frequency and distribution across rural and urban systems and assess whether disparities persist after accounting for system and community characteristics. 
-
-
-
-{{< pagebreak >}}
-
-
-# Methods/Planned Analysis Approach ( Part 1 )
-
-The analysis will begin with data cleaning and processing, including filtering for Georgia water systems, merging system and violation datasets, and handling missing values. Exploratory data analysis will be used to examine distributions, identify patterns, and visualize difference in violations between rural and urban systems. 
-
-Descriptive summaries will be used to examine the distribution of water system characteristics such as population served and rural urban classfication. Visualization will be used to compare drinking water violations between rural and urban systems, such technique will include bar plots showing the proportions of systems with violations and histograms of violation counts and population service. 
-
-
-# Sample Exploratory Data Analysis 
-This will load the SDWA public water systems datatset and the RUCA ZIP code classification datatser into R. These datasets contian infromation on public water system characterstics and rural-urban classifications. 
+# Results
 ```{r}
+#| results: 'hide'
 
 library(tidyverse)
 library(here)
 
 
 # Load datasets
-systems <- read_csv(here("data/raw-data/SDWA_PUB_WATER_SYSTEMS.csv"))
+systems <- read_csv(here("data/raw-data/GA_PUB_WATER_SYSTEMS.csv"))
 ruca <- read_csv(here("data/raw-data/RUCA-codes-2020-zipcode.csv"))
 
 glimpse(systems)
@@ -77,11 +78,11 @@ glimpse(ruca)
 
 ```
 
-
-This will filter the public water system dataset to include only systems located in GA using the STATE_CODE variable. After filtering, there are 5256 remaining observations, confirming that the restriction was applied and to gain the final sample size for analysis. 
+The dataset used for this analysis was restricted to public water systems located in Georgia (n = 5,256). The STATE_CODE variable confirms that all systems in the dataset correspond to Georgia
 ```{r}
-systems_ga <- systems |>
-  filter(STATE_CODE == "GA")
+#| results: 'hide'
+
+systems_ga <- systems
 
 # Check sample size
 nrow(systems_ga)
@@ -91,12 +92,9 @@ nrow(systems_ga)
 systems_ga_filtered <- systems_ga
 ```
 
-Looking at the types of public water systems in Georgia, community water systems were the most common (n=2722), followed by transient non-community systems n= 2,004 and non-transiet non-community systems (n=530)
-  * CWS (community water system)
-  * TNCWS (transient non-community water system)
-  * NTNCWS (non-transient non-community water system)
+Exploratory data analysis was conducted to examine characteristics of public water systems in Georgia and to understand the distribution of key variables prior to statistical modeling. These analyses focused on system type, population served, and the distribution of drinking water violations across systems.
 
-```{r}
+```{r, fig.width=9, fig.height=6}
 ggplot(systems_ga, aes(x= PWS_TYPE_CODE))+
   geom_bar (fill="steelblue")+
   labs(
@@ -108,22 +106,24 @@ ggplot(systems_ga, aes(x= PWS_TYPE_CODE))+
 
 
 ```{r}
+#| results: 'hide'
+
 systems_ga |>
   count(PWS_TYPE_CODE, sort = TRUE)
   
 ```
 
-This allows for summary statistics to be calculate, in this context, this shows the distirbution and range of populations served by public water systems in Georgia
 
 ```{r}
+#| results: 'hide'
+
 summary (systems_ga$POPULATION_SERVED_COUNT)
   
 ```
 
+The distribution of population served varied widely across water systems. Approximately 25% of systems served fewer than 49 individuals, while 75% served fewer than 262 individuals, indicating that many systems in Georgia serve relatively small populations.
 
-This puts into persepctive of how many people that the water systems serve. Approximately 25% of the systems served fewer than 49 people, while 75% of the systems served fewer than 262 people. 
-
-```{r}
+```{r, fig.width=9, fig.height=6}
 systems_ga_filtered <- systems_ga |>
   filter(POPULATION_SERVED_COUNT>0)
 ggplot(
@@ -143,21 +143,13 @@ ggplot(
   
 ```
 
-In this step, I filtered the to include public water systems in Georgia that serve a population > 0. After this, a histogram was created to visualize the distribution of population sized serve by the public systems. 
-
-The histogram appear to be a strongly skewed right distribution, showing a large varation in system size. Most water systems serve a smaller population of individuals with the median population served being 100 people. However, the long right tail is a result of some water systems serving a large population of individuals reaching up to 1 million indivduals. 
-
-
 ```{r}
 violations <- read_csv(here("data", "raw-data", "SDWA_PN_VIOLATION_ASSOC.csv"))
 ```
 
 ```{r}
-library(dplyr)
-
-# Filter water systems in Georgia
-systems_ga <- systems %>%
-  filter(STATE_CODE == "GA")
+# Systems dataset already contains only Georgia water systems
+systems_ga <- systems
 
 # Keep violations for those Georgia water systems
 violations_ga <- violations %>%
@@ -170,10 +162,16 @@ violation_summary <- violations_ga %>%
   count(violation_count) %>%
   rename(Number_of_Systems = n, Violation_Count = violation_count)
 
-print(violation_summary)
+# Table instead of raw print
+library(knitr)
+kable(
+  violation_summary,
+  format = "pandoc",
+  caption = "Number of systems by count of drinking water violations"
+)
 ```
 
-```{r}
+```{r, fig.width=9, fig.height=6}
 ggplot(violation_summary, aes(x = factor(Violation_Count), y = Number_of_Systems)) +
   geom_bar(stat = "identity", fill = "darkred") +
   labs(
@@ -184,11 +182,14 @@ ggplot(violation_summary, aes(x = factor(Violation_Count), y = Number_of_Systems
   theme_minimal()
 ```
 
-# Inferential Statistical Analysis( Part 2 )
+The majority of public water systems had no recorded drinking water violations. However, a smaller subset of systems experienced one or more violations, indicating that violations were relatively uncommon overall but still present across multiple systems.
+
+
+## Inferential Analysis
 Moving forward to formally evaluate whether rural public water systems in Georgia are more likely to experience drinking water violations compared to urban systems, a multivariable logistic regression model was fit. The outcome of interest was whether a system experienced at least one violation. The primary predictor of interest was rural versus urban classification. The model additionally adjusted for population served and water system type to account for potential confounding.
 
 ## Creating System-Level Violation Counts
-This step aggregates violation records to the system level and merges them back into the Georgia water system dataset. Systems with no recorded violations are assigned a count of zero.
+System-level violation counts were calculated. Among Georgia public water systems, 8.5% had at least one recorded violation, while 91.5% had none.
 
 ```{r}
 # Count violations per system
@@ -205,7 +206,8 @@ analysis_data <- systems_ga %>%
 ```
 
 ## Merging Rural-Urban Classification
-This step merges the RUCA ZIP code classification dataset to the system-level dataset. Rural classification was defined using RUCA codes, where codes ≥ 4 were classified as rural and codes 1–3 were classified as urban.
+Rural-urban classification was assigned using RUCA codes: codes 1-3 urban, ≥4 as rural. Systems with missing RUCA values were excluded.
+
 ```{r}
 analysis_data <- analysis_data %>%
   mutate(ZIP_CODE = as.character(ZIP_CODE))
@@ -227,18 +229,47 @@ analysis_data <- analysis_data %>%
     rural = ifelse(PrimaryRUCA >= 4, 1, 0)
   )
 ```
-```{r}
-# Check the first few rows 
-head(analysis_data %>% select(ZIP_CODE, PrimaryRUCA, rural))
 
-# Check how many rural rows you have
-table(analysis_data$rural, useNA = "ifany")
+```{r}
+#| echo: FALSE
+#| warning: FALSE
+#| message: FALSE
+
+library(dplyr)
+library(knitr)
+
+# First few rows (replace PrimaryRUCA if needed, see note below)
+head_table <- analysis_data %>%
+  select(
+    ZIP_CODE,
+    PrimaryRUCA,  # <-- replace this with the actual column name from your data if needed
+    rural
+  ) %>%
+  head(6)
+
+kable(
+  head_table,
+  format = "pandoc",
+  caption = "First 6 rows of ZIP code, RUCA code, and rural indicator"
+)
+
+# Summarize rural distribution
+rural_summary <- analysis_data %>%
+  count(rural, .drop = FALSE) %>%
+  rename(`Rural Indicator` = rural, `Number of ZIP Codes` = n)
+
+kable(
+  rural_summary,
+  format = "pandoc",
+  caption = "Counts of rural indicator (0 = urban, 1 = rural, NA = missing)"
+)
 ```
 
-Rural indicator (rural) was created using the PrimaryRUCA codes from the RUCA ZIPCode dataset. For ZIP codes in the water systems data that did not have a corresponding RUCA code, the rural value is NA. These NA values are currently kept in the dataset to indicate missing RUCA information. However, we will decided to remove them to ensure accurate rural-urban classification.
+Rural indicator (rural) was created using the PrimaryRUCA codes from the RUCA ZIPCode dataset. For ZIP codes in the water systems data that did not have a corresponding RUCA code, the rural value is NA. These NA values are currently kept in the dataset to indicate missing RUCA information. The majority of public water systems had no recorded drinking water violations. Systems with missing RUCA classifications were removed from the dataset to ensure accurate rural-urban classification in subsequent analyses. 
 
 ```{r}
 # Remove systems with missing rural classification
+#| results: 'hide'
 analysis_data <- analysis_data %>%
   filter(!is.na(rural))
 
@@ -248,9 +279,10 @@ nrow(analysis_data)
 ```
 
 ## Creating A Binary Outcome System 
-We will create a binary outcome variable to indicate whether a water system had at least one recorded drinking water violation (1 = yes, 0 = no). Among the Georgia public water systems included in the sample, 8.5% experienced at least one recorded drinking water violation, while 91.5% had no recorded violations. This indicates that violations were relatively uncommon overall, though measurable subset of systems were affected.
+A binary outcome was created to indicate whether a system had ≥1 violation. Violations were relatively uncommon, affecting 8.5% of systems.
 ```{r}
 # Create binary violation indicator
+#| results: 'hide'
 analysis_data <- analysis_data %>%
   mutate(
     any_violation = ifelse(violation_count > 0, 1, 0)
@@ -262,12 +294,11 @@ prop.table(table(analysis_data$any_violation))
 ```
 
 ## Preparing Modeling Variables
-Before fitting the logistics regression model, several variable were prepared and transformed
-  * Population served was filtered to exlcude systems reporting zero population. Additionally, it was log transofmed to account of the strong right skew observed in the raw population distribution.
-  * Rural status, violations, and water system type were coverted to categorical variables.
+Population served was log-transformed due to right-skew. Rural status and water system type were treated as categorical variables.
   
 ```{r}
 # We need our modeling variables 
+#| results: 'hide'
 analysis_data <- analysis_data %>%
   filter(POPULATION_SERVED_COUNT > 0) %>%          # removing systems that report serving n=0
   mutate(
@@ -284,44 +315,59 @@ summary(analysis_data$log_population)
 write_csv(analysis_data, here("data", "processed-data", "analysis_data.csv"))
 ```
 
-## Fitting the Regression Model
-Next, we fit a multivariable logistic regression to evaluate whether rural systems are more likely to have at least one violation, adjusting for population served and system type. The results are summarized by obtaining odds ratios (OR) and 95% confidence intervals (CI):
-  * Rural systems (rural=1) had 1.84 times the odds of experiencing at least one violation (95% CI: 1.46, 2.33)
-  * Population served presented an odds ratio of 1.15 per unit increase (95% CI:1.08, 1.22) indicating that larger water systems tend to have slightly higher odds of recording a violation.
-  * Community water systems comparison (CWS)
-    * Non-transient non-community systems (NTNCWS) had lower odds (OR=0.37) of violations (95% CI: 0.21-0.61)
-    * Transient non-community systems (TNCWS)
-    similarly had lower odds (OR=0.51) of violations (95% CI:0.39-0.68)
+## Logistic Regression
+Results from the multivariable logistic regression indicated that rural public water systems had higher odds of experiencing at least one drinking water violation compared with urban systems (OR = 1.84, 95% CI: 1.46–2.33). Larger systems also had slightly higher odds of violations, with an odds ratio of 1.15 per unit increase in log-transformed population served (95% CI: 1.08–1.22).
 
-Overall, the model indicates that rural systems are at higher risk for drinking water violations when accounting for system type and the population served. 
+Compared with community water systems, non-transient non-community water systems had substantially lower odds of violations (OR = 0.37, 95% CI: 0.21–0.61), and transient non-community water systems also had lower odds (OR = 0.51, 95% CI: 0.39–0.68). Overall, these results suggest that rural systems may face greater challenges in maintaining drinking water compliance, even after accounting for system size and system type.
 
 ```{r}
-# Are rural systems more likely to have at least one violation
+#| echo: FALSE
+#| warning: FALSE
+#| message: FALSE
+
+library(broom)
+library(dplyr)
+library(knitr)
+
+# Fit logistic regression
 model1 <- glm(
   any_violation ~ rural + log_population + PWS_TYPE_CODE, 
   data = analysis_data,
   family = binomial 
 )
 
-# View model summary: coefficients, standard errors, z-values, and p-values
-summary(model1)
+# Tidy model and exponentiate coefficients to get Odds Ratios
+tidy_model <- tidy(model1, exponentiate = TRUE, conf.int = TRUE) %>%
+  # Remove intercept (optional for manuscript table)
+  filter(term != "(Intercept)") %>%
+  # Round numbers for readability
+  mutate(
+    estimate = round(estimate, 2),
+    conf.low = round(conf.low, 2),
+    conf.high = round(conf.high, 2),
+    p.value = signif(p.value, 3)
+  ) %>%
+  # Rename columns for table
+  select(
+    Predictor = term,
+    OR = estimate,
+    `95% CI Lower` = conf.low,
+    `95% CI Upper` = conf.high,
+    `p-value` = p.value
+  )
 
-# Odds ratios
-exp_coef <- exp(cbind(
-  OR = coef(model1),                       
-  confint(model1)             # 95% CI for coefficients
-))
-
-exp_coef
-
-# Summarize the logistic regression results
-summary(model1)
-
+# Print table with caption
+kable(
+  tidy_model,
+  format = "pandoc",
+  caption = "Odds ratios and 95% confidence intervals from logistic regression predicting at least one violation"
+)
 ```
 
+
 ## Generating a Logistic Regression Model
-To visualize the results of the logistic regression model, we create a forest plot displaying the odds ratios for each predictor. This allows for a clear comparison of the direction of associations between rural status, population served, system type, and the likelihood of having at least one drinking water violation.
-```{r}
+Figure _ displays odds ratios and 95% confidence intervals from the multivariable logistic regression, showing assocaitions between rural status, population served, water system type, and violation likelihood.
+```{r, fig.width=10, fig.height=6}
 # Load required package
 library(ggplot2)
 library(dplyr)
@@ -345,5 +391,8 @@ ggplot(tidy_model_plot, aes(x = term, y = estimate)) +
     x = "Predictor",
     y = "Odds Ratio (95% CI)"
   ) +
-  theme_minimal()
+  theme_minimal() +
+  theme(plot.margin=margin(10, 10, 10, 80))
 ```
+
+# Discussion

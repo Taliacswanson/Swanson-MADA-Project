@@ -1,0 +1,178 @@
+============================================================
+# An Analysis of Rural-Urban Differences in
+# Drinking Water System Violations in Georgia
+# Author: Talia C. Swanson
+# ============================================================
+
+This section constructs the final analysis dataset and performs the statistical analysis used to evaluate whether rural public water systems in Georgia are more likely to experience drinking water violations compared to urban systems.
+
+The analysis proceeds in several steps. First, violation records are aggregated to the water system level. Next, the violation data are merged with the system-level dataset. Rural classification is then added using RUCA ZIP code data. Finally, a logistic regression model is fit to evaluate the association between rural status and the likelihood of at least one violation.
+
+```{r}
+library(tidyverse)
+library(here)
+library(broom)
+library(ggplot2)
+```
+
+## Load datasets 
+
+The datasets required to construct the analysis dataset are loaded. These include the public water systems dataset, the violation records dataset, and the RUCA ZIP code classification dataset.
+
+```{r}
+systems <- read_csv(here("data/raw-data/GA_PUB_WATER_SYSTEMS.csv"))
+violations <- read_csv(here("data", "raw-data", "SDWA_PN_VIOLATION_ASSOC.csv"))
+ruca <- read_csv(here("data/raw-data/RUCA-codes-2020-zipcode.csv"))
+
+systems_ga <- systems
+```
+
+## Merge violation records
+
+Violation records are restricted to those associated with Georgia public water systems by joining the violations dataset with the system-level dataset.
+
+```{r}
+violations_ga <- violations %>%
+  inner_join(systems_ga %>% select(PWSID), by = "PWSID")
+```
+
+## Create violation counts
+
+Violation records are aggregated to the system level by counting the number of violations associated with each water system.
+
+```{r}
+violation_counts <- violations_ga %>%
+  group_by(PWSID) %>%
+  summarise(violation_count = n())
+```
+
+### Create analysis dataset
+
+The system-level violation counts are merged back into the water system dataset. Systems with no recorded violations are assigned a value of zero.
+
+```{r}
+analysis_data <- systems_ga %>%
+  left_join(violation_counts, by = "PWSID") %>%
+  mutate(
+    violation_count = ifelse(is.na(violation_count), 0, violation_count)
+  )
+```
+
+## Merge RUCA classification
+
+The RUCA ZIP code dataset is prepared and merged with the system dataset to classify water systems as rural or urban based on their ZIP code.
+
+```{r}
+analysis_data <- analysis_data %>%
+  mutate(ZIP_CODE = as.character(ZIP_CODE))
+
+ruca <- ruca %>%
+  mutate(ZIPCode = as.character(ZIPCode))
+
+analysis_data <- analysis_data %>%
+  left_join(ruca, by = c ("ZIP_CODE" = "ZIPCode"))
+```
+
+## Create rural variable
+
+A rural indicator variable is created based on RUCA codes. Systems with RUCA codes greater than or equal to 4 are classified as rural.
+
+```{r}
+analysis_data <- analysis_data %>%
+  mutate(
+    rural = ifelse(PrimaryRUCA >= 4, 1, 0)
+  )
+```
+
+## Removing missing rural classificiations
+
+Water systems without a matching RUCA code are removed to ensure accurate rural-urban classification.
+
+```{r}
+analysis_data <- analysis_data %>%
+  filter(!is.na(rural))
+```
+
+## Create binary outcome
+
+A binary outcome variable is created to indicate whether a water system experienced at least one drinking water violation.
+
+```{r}
+analysis_data <- analysis_data %>%
+  mutate(
+    any_violation = ifelse(violation_count > 0, 1, 0)
+  )
+```
+
+## Prepare modeling variables
+
+The population served variable is filtered to exclude systems reporting zero population and is log-transformed to account for the strong right-skew observed in the distribution. Variables used in the model are converted to categorical format as appropriate.
+
+```{r}
+analysis_data <- analysis_data %>%
+  filter(POPULATION_SERVED_COUNT > 0) %>%
+  mutate(
+    log_population = log(POPULATION_SERVED_COUNT),
+    rural = as.factor(rural),
+    any_violation = as.factor(any_violation),
+    PWS_TYPE_CODE = as.factor(PWS_TYPE_CODE)
+  )
+```
+
+## Save proccessed dataset
+
+The processed dataset used for statistical analysis is saved to the processed-data folder.
+
+```{r}
+write_csv(analysis_data, here("data", "processed-data", "analysis_data.csv"))
+```
+
+## Logistic regression
+
+A multivariable logistic regression model is fit to evaluate whether rural water systems have higher odds of experiencing at least one drinking water violation, adjusting for population served and water system type.
+
+```{r}
+model1 <- glm(
+  any_violation ~ rural + log_population + PWS_TYPE_CODE, 
+  data = analysis_data,
+  family = binomial 
+)
+
+summary(model1)
+```
+
+## Calculate odds ratio
+
+A multivariable logistic regression model is fit to evaluate whether rural water systems have higher odds of experiencing at least one drinking water violation, adjusting for population served and water system type.
+
+```{r}
+exp_coef <- exp(cbind(
+  OR = coef(model1),                       
+  confint(model1)
+))
+
+exp_coef
+```
+
+# Forest Plot
+
+A forest plot is created to visualize the odds ratios and confidence intervals for each predictor in the logistic regression model.
+
+```{r}
+tidy_model <- tidy(model1, exponentiate = TRUE, conf.int = TRUE)
+
+tidy_model_plot <- tidy_model %>%
+  filter(term != "(Intercept)")
+
+ggplot(tidy_model_plot, aes(x = term, y = estimate)) +
+  geom_point(size = 3, color = "steelblue") +
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high),
+                width = 0.2, color = "steelblue") +
+  coord_flip() +
+  labs(
+    title = "Odds Ratios for Logistic Regression Predictors",
+    x = "Predictor",
+    y = "Odds Ratio (95% CI)"
+  ) +
+  theme_minimal()
+```
