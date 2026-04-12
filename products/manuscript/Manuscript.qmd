@@ -368,8 +368,6 @@ kable(
 )
 ```
 
-
-## Generating a Logistic Regression Model
 Figure _ displays odds ratios and 95% confidence intervals from the multivariable logistic regression, showing assocaitions between rural status, population served, water system type, and violation likelihood.
 ```{r, fig.width=10, fig.height=6}
 # Load required package
@@ -397,6 +395,34 @@ ggplot(tidy_model_plot, aes(x = term, y = estimate)) +
   ) +
   theme_minimal() +
   theme(plot.margin=margin(10, 10, 10, 80))
+```
+
+## Model Performance Section
+```{r}
+set.seed(123)
+
+index <- sample(nrow(analysis_data), 0.7*nrow(analysis_data))
+
+train <- analysis_data[index, ]
+test  <- analysis_data[-index, ]
+
+model_train <- glm(
+  any_violation ~ rural + log_population + PWS_TYPE_CODE,
+  data = train,
+  family = binomial
+)
+
+test$pred <- predict(model_train, newdata = test, type = "response")
+test$class <- ifelse(test$pred > 0.5, 1, 0)
+
+mean(test$class == as.numeric(as.character(test$any_violation)))
+```
+
+```{r}
+library(pROC)
+
+roc(test$any_violation, test$pred)
+auc(test$any_violation, test$pred)
 ```
 
 # Discussion
