@@ -5,12 +5,13 @@
 # Author: Talia C. Swanson
 # ============================================================
 
-This section performs exploratory data analysis to better understand the structure of the SDWIS public water systems dataset and examine basic characteristics of water systems in Georgia.
+This section performs exploratory data analysis to better understand the structure o f the SDWIS public water systems dataset and examine basic characteristics of water systems in Georgia.
 
-## Load Packages
+## Load Packages + Data
 ```{r}
 library(tidyverse)
 library(here)
+library(knitr)
 
 # Load datasets
 systems <- read_csv(here("data/raw-data/GA_PUB_WATER_SYSTEMS.csv"))
