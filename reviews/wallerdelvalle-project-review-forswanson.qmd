@@ -1,0 +1,191 @@
+---
+title: Project Review Template 
+author: Anissa Waller Del Valle 
+date: April 29 2026 
+format: 
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+---
+
+# Overview
+
+Title of project: An Analysis of Rural-Urban Difference in Drinking Water System Violations in Georgia
+
+Name of project author(s): Talia Swanson 
+
+Name of project reviewer: Anissa Waller Del Valle 
+
+## Background, Context and Motivation
+How well is the context of the project described? Is a comprehensive background, including summary of previous/related work given? Is the project well placed into the context of existing work (including proper referencing of existing work). Is it clear why the project was undertaken and what new information it hopes to provide?
+
+### Feedback and Comments
+
+1. I see the references in the project repository and in Manuscript.qmd, but I do not see them in MS Word (as in, there is no 'Reference' section in MS Word). I was able to find your .bib file and briefly looked through the references; I feel that your project fits well within the context of the field's existing work. 
+
+2. There is not a summary of previous work. 
+
+3. It may be useful to write 1 - 2 sentences explaining why you are looking at Georgia specifically. 
+
+4. Last sentence highlights the significance of this project. Solid! I would like a bit more detail on what 'additional support' would look like, as well as a brief 1 sentence explaination on how the results of this work can do that (e.g, the goal of this work is to report which public water systems are and are not in compliance with federal and state regulations to better to X, Y, and Z.) 
+
+### Summary assessment (PICK ONE, DELETE THE OTHERS)
+* some contextualization and motivation
+
+
+## Question description
+How well and clear are the question(s)/hypotheses the project aims to address described? Is it clear how the questions relate to the data?
+
+
+### Feedback and Comments
+
+1. There is a section titled **Research Question**, which states what this analysis aims to do. It is not written as a question, but it is clear and easy to understand what the project aims to address. 
+
+2. The hypothesis is not explictly stated stated.
+
+3. I liked that the expected results (primary outcome of interest) were explicitly stated. 
+
+### Summary assessment
+* question/hypotheses somewhat explained
+
+
+## Data description
+How well is the data overall described? Is the source provided? Is a codebook or other meta-information available that makes it clear what the data is? 
+
+### Feedback and Comments
+
+1. It is stated that the data source comes from the Safe Drinking Information System, and that two datasets were used. These datasets were described ("one containing water information"), but I think it would be stronger if you explicitly mentioned what datasets were used (e.g., name of the dataset, link to github or SDWIS, date/year the data was obtained...). 
+
+2. **Description of data and data source** provides a bit more information on what each dataset contains, but does not explicitly state which datasets were used. 
+
+### Summary assessment
+* source and overall structure of data poorly explained
+
+
+
+## Data wrangling and exploratory analysis
+How well is the data cleaned/processed and explored? Are all steps reasonable and well explained? Are alternatives discussed and considered? Are meaningful exploratory results shown (e.g. in the supplementary materials)?
+
+### Feedback and Comments
+
+1. The readme.md file in data/raw-data is empty. The readme.md file in data/processed-data has not been changed (still contains text from the template). The readme.md file in /code, /code/analysis-code, and /code/eda-code are all empty. 
+
+2. There is another file titled edacode.R. It looks like it came from the template -- I would recommend removing this file. 
+
+3. The script in eda.qmd under ## Count violations isn't running for me, as the object 'violations_ga' cannot be found. I was not able to run the script below it ( ## Violation distribution plot). As such, I was only able to generate two figures, and felt that the exploratory analysis was pretty limited, and currently does not seperate things out by rural status, which was the aim of this project. I think it would strengthen your project to include the same graphs, just now seperating between urban vs. rural (e.g., number of systems vs population served in rural vs urban areas). 
+
+4. The steps are reasonable and well explained. Alternatives are not discussed.  
+
+### Summary assessment
+* major weaknesses in wrangling and exploratory component
+
+
+
+## Appropriateness of Analysis
+Were the analysis methods appropriate for the data? Was the analysis done properly? Were different components of the analysis (e.g. performance measure, variable selection, data pre-processing, model evaluation) done in the best way possible and explained well?
+
+### Feedback and Comments
+
+1. The analysis methods were appropriate and well-aligned with the reseach methods. The analysis was done properly. I was able to run all scripts with no issues. A brief statement explaining each script/section was included. 
+
+2. The analysis-code file includes statistical-analysis.R. This seems to be leftover from the template. I would recommend removing this file. 
+
+
+### Summary assessment 
+* strong and reasonable analysis
+
+## Presentation
+How well are results presented? Are tables and figures easy to read and understand? Are the main figures/tables publication level quality? 
+
+### Feedback and Comments
+
+1. The results (and interpretation of results) are communicated clearly. Results are presented well. 
+
+2. Figures and tables are easy to read, but I am not sure I would say they are all publication quality. 
+* Several tables are not fully polished (e.g., the violation count table, which is currently a long, unformatted text output rather than a stylized table). 
+* There are some raw R outputs included directly in the manuscript (MS Word), which could be formatted into a stylized table. 
+* Several labels could be updated (e.g., log_population, rural1 in the odds ratio table). 
+
+3. Under **4.7 Generating a Logistic Regression Model**, there is an attempt to call out a figure. This is currently written as "Figure _". 
+
+### Summary assessment
+* results are presented ok, with room for improvement
+
+
+## Discussion/Conclusions
+Are the study findings properly discussed? Are strengths and limitations acknowledged? Are findings interpreted properly?
+
+### Feedback and Comments
+
+1. I can see the discussion in Manuscript.qmd. It does not show up in MS Word -- all I see is the section title (5. Discussion). 
+
+2. The findings are properly discussed. The core finding is clearly stated and correctly intepreted. 
+
+3. Key limitations are listed, but are brief, and do not explicitly state how these limitations may influence results. 
+
+
+### Summary assessment
+* strong, complete and clear discussion
+
+
+## Further comments
+
+1. I didn't realize my manuscript had typos until one of my reviewers pointed it out, as these typos are not highlighted in the .qmd files. There are VERY few typos, but I would recommend going through the MS Word document and sorting them out before final submission. 
+
+
+
+# Overall project content evaluation
+Evaluate overall features of the project  by filling in the sections below.
+
+
+## Structure
+Is the project well structured? Are files in well labeled folders? Do files have reasonable names? Are all "junk" files not needed for analysis/reproduction removed? By just looking at files and folders, can you get an idea of how things fit together?
+
+### Feedback and Comments
+
+1. The project is well structured. THe files are in well labeled folders and have reasonable names. I can get an idea of how things fit together just by looking at it. 
+
+2. Several 'junk' files have not been removed. 
+
+3. I think having both the processing script and exploratory data analysis script should be fine as is, but I would personally spread them out between two different files and label them accordingly (e.g., 01_processing-script, 02_eda-script). 
+
+### Summary assessment
+* mostly clear, but some confusing parts (e.g. useless files, things in the wrong folders)
+
+
+
+## Documentation 
+How well is the project documented? Are you able to understand each step of the whole analysis, each decision that was made, and each line of code? Is enough information provided as comments in code or as part of Rmd files? 
+
+### Feedback and Comments
+
+1. The project was well documented. I can understand each step/decision/line and felt that it was enough information. 
+
+### Summary assessment
+* fully and well documented
+
+
+
+## Reproducibility
+Are all results fully reproducible? Is documentation provided which clearly explains how to reproduce things, and does it work without the need for any manual intervention? Are you able to re-run the whole analysis without having to do manual interventions/edits?
+
+### Feedback and Comments
+
+1. As mentioned above, there were some scripts that I was unable to run as an object did not exist. Outside of that, all scripts ran well, and all figures were reproducible. 
+
+### Summary assessment
+* small parts not reproducible or required manual intervention 
+
+
+## Thoroughness
+How thorough was the overall study? Were alternatives (e.g. different ways of processing the data or different models) considered? Were alternatives discussed? Were the questions/hypotheses fully and thoroughly addressed?
+
+### Feedback and Comments
+
+1. As mentioned above, I felt that the exploratory data analysis was fairly limited and did not fully and thoroughly address the question/hypothesis. The analysis script was solid, although only one modeling framework (logistic regression) was used. The central question was still clearly answered, and the hypothesis was addressed, although it was not deeply interrogated. 
+
+2. Alternatives were not considered or discussed. 
+
+### Summary assessment
+* decent level of thoroughness
