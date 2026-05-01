@@ -13,6 +13,7 @@ library(tidyverse)
 library(here)
 library(broom)
 library(ggplot2)
+library(pROC)
 ```
 
 ## Load datasets 
@@ -21,13 +22,13 @@ The datasets required to construct the analysis dataset are loaded. These includ
 
 ```{r}
 systems <- read_csv(here("data/raw-data/GA_PUB_WATER_SYSTEMS.csv"))
-violations <- read_csv(here("data", "raw-data", "SDWA_PN_VIOLATION_ASSOC.csv"))
+violations <- read_csv(here("data/raw-data/SDWA_PN_VIOLATION_ASSOC.csv"))
 ruca <- read_csv(here("data/raw-data/RUCA-codes-2020-zipcode.csv"))
 
 systems_ga <- systems
 ```
 
-## Merge violation records
+## Restrict violation to GA Systems
 
 Violation records are restricted to those associated with Georgia public water systems by joining the violations dataset with the system-level dataset.
 
@@ -36,7 +37,7 @@ violations_ga <- violations %>%
   inner_join(systems_ga %>% select(PWSID), by = "PWSID")
 ```
 
-## Create violation counts
+## Aggregate Violations to System Level
 
 Violation records are aggregated to the system level by counting the number of violations associated with each water system.
 
@@ -46,19 +47,30 @@ violation_counts <- violations_ga %>%
   summarise(violation_count = n())
 ```
 
+=================================================
 ### Create analysis dataset
 
 The system-level violation counts are merged back into the water system dataset. Systems with no recorded violations are assigned a value of zero.
+```{r}
+# IDK LOOK AT THIS PLEASE would it be if else or replace
+analysis_data <- systems_ga %>%
+  left_join(violation_counts, by = "PWSID") %>%
+  mutate(
+    violation_count = replace_na(violation_count), 0, violation_count)
+  )
+```
 
 ```{r}
+# IDK LOOK AT THIS PLEASE would it be if else or replace
 analysis_data <- systems_ga %>%
   left_join(violation_counts, by = "PWSID") %>%
   mutate(
     violation_count = ifelse(is.na(violation_count), 0, violation_count)
   )
 ```
+===========================================================
 
-## Merge RUCA classification
+## Merge RUCA Classification Data
 
 The RUCA ZIP code dataset is prepared and merged with the system dataset to classify water systems as rural or urban based on their ZIP code.
 
@@ -73,7 +85,7 @@ analysis_data <- analysis_data %>%
   left_join(ruca, by = c ("ZIP_CODE" = "ZIPCode"))
 ```
 
-## Create rural variable
+## Create rural variable (RUCA >=4 = rural)
 
 A rural indicator variable is created based on RUCA codes. Systems with RUCA codes greater than or equal to 4 are classified as rural.
 
@@ -81,16 +93,8 @@ A rural indicator variable is created based on RUCA codes. Systems with RUCA cod
 analysis_data <- analysis_data %>%
   mutate(
     rural = ifelse(PrimaryRUCA >= 4, 1, 0)
-  )
-```
-
-## Removing missing rural classificiations
-
-Water systems without a matching RUCA code are removed to ensure accurate rural-urban classification.
-
-```{r}
-analysis_data <- analysis_data %>%
-  filter(!is.na(rural))
+  ) %>%
+  filter(!is.na(rural)) 
 ```
 
 ## Create binary outcome
@@ -124,10 +128,10 @@ analysis_data <- analysis_data %>%
 The processed dataset used for statistical analysis is saved to the processed-data folder.
 
 ```{r}
-write_csv(analysis_data, here("data", "processed-data", "analysis_data.csv"))
+write_csv(analysis_data, here("data/processed-data/analysis_data.csv"))
 ```
 
-## Logistic regression
+## Logistic regression model
 
 A multivariable logistic regression model is fit to evaluate whether rural water systems have higher odds of experiencing at least one drinking water violation, adjusting for population served and water system type.
 
@@ -141,7 +145,7 @@ model1 <- glm(
 summary(model1)
 ```
 
-## Calculate odds ratio
+## Odds ratio + confidence intervals
 
 A multivariable logistic regression model is fit to evaluate whether rural water systems have higher odds of experiencing at least one drinking water violation, adjusting for population served and water system type.
 
@@ -150,8 +154,7 @@ exp_coef <- exp(cbind(
   OR = coef(model1),                       
   confint(model1)
 ))
-
-exp_coef
+or_table
 ```
 
 # Forest Plot
@@ -166,8 +169,11 @@ tidy_model_plot <- tidy_model %>%
 
 ggplot(tidy_model_plot, aes(x = term, y = estimate)) +
   geom_point(size = 3, color = "steelblue") +
-  geom_errorbar(aes(ymin = conf.low, ymax = conf.high),
-                width = 0.2, color = "steelblue") +
+  geom_errorbar(
+    aes(ymin = conf.low, ymax = conf.high),
+    width = 0.2, 
+    color = "steelblue"
+    ) +
   coord_flip() +
   labs(
     title = "Odds Ratios for Logistic Regression Predictors",
@@ -175,4 +181,46 @@ ggplot(tidy_model_plot, aes(x = term, y = estimate)) +
     y = "Odds Ratio (95% CI)"
   ) +
   theme_minimal()
+```
+
+# Model Performance
+```{r}
+set.seed(123)
+
+index <- sample(nrow(analysis_data), 0.7 * nrow(analysis_data))
+
+train <- analysis_data[index, ]
+test <- analaysis_data[-index, ]
+
+model_train <- glm(
+  any_violation ~ rural + log population + PWS_TYPE_CODE,
+  data = train, 
+  family = binomial
+)
+test$pred <- predict(model_train, newdata = test, type = "response")
+test$class <- ifelse(test$pred > 0.5, 1, 0)
+```
+
+```{r}
+# Accuracy
+mean(test$class == as.numeric(as.character(test$any_violation)))
+
+# Confusion matrix
+table(Predicted = test$class, Actual = test$any_violation)
+
+# Sensitivity & specificity
+TP <- sum(test$class == 1 & test$any_violation == 1)
+TN <- sum(test$class == 0 & test$any_violation == 0)
+FP <- sum(test$class == 1 & test$any_violation == 0)
+FN <- sum(test$class == 0 & test$any_violation == 1)
+
+sensitivity <- TP / (TP + FN)
+specificity <- TN / (TN + FP)
+
+sensitivity
+specificity
+
+# AUC
+roc_obj <- roc(test$any_violation, test$pred)
+auc(roc_obj)
 ```
