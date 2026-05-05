@@ -57,7 +57,7 @@ analysis_data <- systems_ga %>%
   left_join(violation_counts, by = "PWSID") %>%
   mutate(
     violation_count = replace_na(violation_count), 0, violation_count)
-  )
+)
 ```
 
 ```{r}
