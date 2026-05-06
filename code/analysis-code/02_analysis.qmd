@@ -54,6 +54,19 @@ violation_counts <- violations_ga %>%
 
 The system-level violation counts are merged back into the water system dataset. Systems with no recorded violations are assigned a value of zero.
 ```{r}
+<<<<<<< HEAD:code/analysis-code/02_analysis.qmd
+=======
+# IDK LOOK AT THIS PLEASE would it be if else or replace
+analysis_data <- systems_ga %>%
+  left_join(violation_counts, by = "PWSID") %>%
+  mutate(
+    violation_count = replace_na(violation_count), 0, violation_count)
+)
+```
+
+```{r}
+# IDK LOOK AT THIS PLEASE would it be if else or replace
+>>>>>>> pr-8:code/analysis-code/analysis.qmd
 analysis_data <- systems_ga %>%
   left_join(violation_counts, by = "PWSID") %>%
   mutate(

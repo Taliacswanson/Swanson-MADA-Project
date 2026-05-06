@@ -1,0 +1,145 @@
+---
+title: Adams Project Review
+author: Elle Adams
+date: 2026-05-05
+format: 
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+---
+# Overview
+Title of project: An Analysis of Rural-Urban Differences in Drinking Water System Violations in Georgia
+Name of project author(s): Talia C. Swanson
+Name of project reviewer: Elle Adams
+
+## Background, Context and Motivation
+How well is the context of the project described? Is a comprehensive background, including summary of previous/related work given? Is the project well placed into the context of existing work (including proper referencing of existing work). Is it clear why the project was undertaken and what new information it hopes to provide?
+
+### Feedback and Comments
+Very clear, good summary of the problem and sets you up well for your question.
+
+### Summary assessment (PICK ONE, DELETE THE OTHERS)
+* strong contextualization and motivation
+
+## Question description
+How well and clear are the question(s)/hypotheses the project aims to address described? Is it clear how the questions relate to the data?
+
+### Feedback and Comments
+Again, clear.
+
+### Summary assessment
+* question/hypotheses fully clear
+
+## Data description
+How well is the data overall described? Is the source provided? Is a codebook or other meta-information available that makes it clear what the data is? 
+
+### Feedback and Comments
+Looks good to me. 
+
+### Summary assessment
+* source and overall structure of data well explained
+
+## Data wrangling and exploratory analysis
+How well is the data cleaned/processed and explored? Are all steps reasonable and well explained? Are alternatives discussed and considered? Are meaningful exploratory results shown (e.g. in the supplementary materials)?
+
+### Feedback and Comments
+Steps are reasonable and well explained. 
+
+### Summary assessment
+* essentially no weaknesses in wrangling and exploratory component
+
+## Appropriateness of Analysis
+Were the analysis methods appropriate for the data? Was the analysis done properly? Were different components of the analysis (e.g. performance measure, variable selection, data pre-processing, model evaluation) done in the best way possible and explained well?
+
+### Feedback and Comments
+I actually think that you do a really good job describing the variables you worked with and why, and evaluating your model. I wonder if you explored other models elsewhere/why you specifically chose this logisitc regression model? I only mention it because I remember Prof Handel mentioning trying multiple models and justifying the one you chose. Nothign wrong with your analysis, just thought I should mention it. 
+
+### Summary assessment
+* defensible but not optimal analysis 
+
+## Presentation
+How well are results presented? Are tables and figures easy to read and understand? Are the main figures/tables publication level quality? 
+
+### Feedback and Comments
+I don't love the code in the text in the manuscript, I would recommend making an actualy table to display them. 
+
+### Summary assessment
+* results are presented ok, with room for improvement
+
+## Discussion/Conclusions
+Are the study findings properly discussed? Are strengths and limitations acknowledged? Are findings interpreted properly?
+
+### Feedback and Comments
+Nice.
+
+### Summary assessment
+* strong, complete and clear discussion
+
+## Structure
+Is the project well structured? Are files in well labeled folders? Do files have reasonable names? Are all "junk" files not needed for analysis/reproduction removed? By just looking at files and folders, can you get an idea of how things fit together?
+
+### Feedback and Comments
+I can't find your data processing code, unless it is that part at the beginning of your analysis.qmd?
+You have some empty files under results - large-files and output, that you can delete. 
+Your manuscript renders, but there is no reference section included. 
+
+### Summary assessment
+* mostly clear, but some confusing parts (e.g. useless files, things in the wrong folders)
+
+## Documentation 
+How well is the project documented? Are you able to understand each step of the whole analysis, each decision that was made, and each line of code? Is enough information provided as comments in code or as part of Rmd files? 
+
+### Feedback and Comments
+I think there is enough information provided as comments in code or in the qmd files to understand what is going on with the code. 
+
+### Summary assessment
+* fully and well documented
+
+## Reproducibility
+Are all results fully reproducible? Is documentation provided which clearly explains how to reproduce things, and does it work without the need for any manual intervention? Are you able to re-run the whole analysis without having to do manual interventions/edits?
+
+### Feedback and Comments
+Trying to run your eda.qmd code, got this error: 
+Error:
+! object 'violations_ga' not found
+I can't find where you create this dataframe?
+
+In your analysis.qmd, the part where you wrote # IDK LOOK AT THIS PLEASE would it be if else or replace
+analysis_data <- systems_ga %>%
+  left_join(violation_counts, by = "PWSID") %>%
+  mutate(
+    violation_count = replace_na(violation_count), 0, violation_count)
+  ), I'm getting a syntax error: unexpected ')'. Otherwise it runs? The next one runs just fine as well. 
+
+  For this part of analysis.qmd: exp_coef <- exp(cbind(
+  OR = coef(model1),                       
+  confint(model1)
+))
+or_table, I get 
+Error:
+! object 'or_table' not found.
+Also in analysis.qmd, under Model Performance, analysis is misspelled for the test data split, and I keep getting a syntax error here: model_train <- glm(
+  any_violation ~ rural + log population + PWS_TYPE_CODE,
+  data = train, 
+  family = binomial
+) These prevent the rest of the code from running. 
+
+### Summary assessment
+* small parts not reproducible or required manual intervention 
+
+## Thoroughness
+How thorough was the overall study? Were alternatives (e.g. different ways of processing the data or different models) considered? Were alternatives discussed? Were the questions/hypotheses fully and thoroughly addressed?
+
+### Feedback and Comments
+I think this is a good study, just suggested a couple of tweaks. 
+
+### Summary assessment
+* decent level of thoroughness
+
+
+
+
+
+
+
