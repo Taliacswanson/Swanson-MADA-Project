@@ -21,21 +21,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
-<script src="Manuscript1_files/libs/clipboard/clipboard.min.js"></script>
-<script src="Manuscript1_files/libs/quarto-html/quarto.js" type="module"></script>
-<script src="Manuscript1_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="Manuscript1_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="Manuscript1_files/libs/quarto-html/popper.min.js"></script>
-<script src="Manuscript1_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="Manuscript1_files/libs/quarto-html/anchor.min.js"></script>
-<link href="Manuscript1_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="Manuscript1_files/libs/quarto-html/quarto-syntax-highlighting-8b4baf804e461d9b72633f0de59a0cac.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="Manuscript1_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="Manuscript1_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="Manuscript1_files/libs/bootstrap/bootstrap-b2aed5f364e5f698f22f3b9d1825bc81.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="Manuscript_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Manuscript_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="Manuscript_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="Manuscript_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="Manuscript_files/libs/quarto-html/popper.min.js"></script>
+<script src="Manuscript_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Manuscript_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Manuscript_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Manuscript_files/libs/quarto-html/quarto-syntax-highlighting-8b4baf804e461d9b72633f0de59a0cac.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Manuscript_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Manuscript_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Manuscript_files/libs/bootstrap/bootstrap-b2aed5f364e5f698f22f3b9d1825bc81.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
 
 </head>
@@ -80,8 +100,8 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="introduction" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Introduction</h1>
-<p>Access to safe drinking water is a fundamental public health priority in the United States of America <span class="citation" data-cites="noauthor_drinking_water_2023">(<a href="#ref-noauthor_drinking_water_2023" role="doc-biblioref"><strong>noauthor_drinking_water_2023?</strong></a>)</span>. Public water systems are regulated under the Safe Drinking Water Act to ensure compliance with health-based standards, however, disparities in water quality outcomes persist across geographic regions. Exposure to contaminted drinking water has been associated with a range of adverse health outcomes, including infectious disease and long-term chronic conditions<span class="citation" data-cites="noauthor_drinking_nodate">(<a href="#ref-noauthor_drinking_nodate" role="doc-biblioref"><strong>noauthor_drinking_nodate?</strong></a>)</span>.</p>
-<p>Emerging evidence suggests that these disparities are not uniformly distributed, with certain populations experiencing a disproportionate burden of drinking water violations. Prior research has documented significant geographic and sociodemographic variation in violation patterns, with rural communities and smaller water systems often facing elevated risks of noncompliance <span class="citation" data-cites="allaire_national_2018 mcdonald_drinking_2018">(<a href="#ref-allaire_national_2018" role="doc-biblioref"><strong>allaire_national_2018?</strong></a>; <a href="#ref-mcdonald_drinking_2018" role="doc-biblioref"><strong>mcdonald_drinking_2018?</strong></a>)</span>. These disparities are thought to be driven by structural factors, including aging infrastructure, limited financial and technical capacity, reduced economies of scale, and challenges in regulatory oversight.</p>
+<p>Access to safe drinking water is a fundamental public health priority in the United States of America <span class="citation" data-cites="noauthor_drinking_water_2023">(<a href="#ref-noauthor_drinking_water_2023" role="doc-biblioref">2023</a>)</span>. Public water systems are regulated under the Safe Drinking Water Act to ensure compliance with health-based standards, however, disparities in water quality outcomes persist across geographic regions. Exposure to contaminted drinking water has been associated with a range of adverse health outcomes, including infectious disease and long-term chronic conditions<span class="citation" data-cites="noauthor_drinking_nodate">(<a href="#ref-noauthor_drinking_nodate" role="doc-biblioref">n.d.</a>)</span>.</p>
+<p>Emerging evidence suggests that these disparities are not uniformly distributed, with certain populations experiencing a disproportionate burden of drinking water violations. Prior research has documented significant geographic and sociodemographic variation in violation patterns, with rural communities and smaller water systems often facing elevated risks of noncompliance <span class="citation" data-cites="allaire_national_2018 mcdonald_drinking_2018">(<a href="#ref-allaire_national_2018" role="doc-biblioref">Allaire, Wu, and Lall 2018</a>; <a href="#ref-mcdonald_drinking_2018" role="doc-biblioref">McDonald and Jones 2018</a>)</span>. These disparities are thought to be driven by structural factors, including aging infrastructure, limited financial and technical capacity, reduced economies of scale, and challenges in regulatory oversight.</p>
 <p>In Georgia, public water systems serve a diverse population across densely populated urban centers and sparsely populated rural areas. Rural systems, in particular, may face constraints that affect their ability to maintain consistent compliance with drinking water regulations. Despite national-level evidence of disparities, less is known about how these patterns manifest at the state level. Examining rural–urban differences in drinking water violations within Georgia is therefore critical for identifying vulnerable systems, informing targeted policy and regulatory interventions, and advancing efforts to ensure equitable access to safe drinking water.</p>
 <section id="research-question" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="research-question"><span class="header-section-number">2.1</span> Research Question</h2>
@@ -96,7 +116,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="data-source" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="data-source"><span class="header-section-number">3.2</span> Data Source</h2>
-<p>The primary data source is the Safe Drinking Information System (SDWIS), maintained by the Environmental Protection Agency (EPA) <span class="citation" data-cites="noauthor_sdwa_nodate">(<a href="#ref-noauthor_sdwa_nodate" role="doc-biblioref"><strong>noauthor_sdwa_nodate?</strong></a>)</span>. SDWIS collected information from public water systems and state primacy agencies, including characteristics, populations served, ownership type, geographic location, and violation records. Two SDWIS datasets were used: one containing water information and the other documenting violation-level records. Rural-urban classification was assigned using the 2010 RUCA ZIP code dataset obtained from the University of Washington WWAMI Rural Health Research Center <span class="citation" data-cites="noauthor_rural_nodate">(<a href="#ref-noauthor_rural_nodate" role="doc-biblioref"><strong>noauthor_rural_nodate?</strong></a>)</span>.</p>
+<p>The primary data source is the Safe Drinking Information System (SDWIS), maintained by the Environmental Protection Agency (EPA) <span class="citation" data-cites="noauthor_sdwa_nodate">(<a href="#ref-noauthor_sdwa_nodate" role="doc-biblioref"><span>“<span>SDWA</span> <span>Data</span> <span>Download</span> <span>Summary</span> and <span>Data</span> <span>Element</span> <span>Dictionary</span> <span></span> <span>ECHO</span> <span></span> <span>US</span> <span>EPA</span>”</span> n.d.</a>)</span>. SDWIS collected information from public water systems and state primacy agencies, including characteristics, populations served, ownership type, geographic location, and violation records. Two SDWIS datasets were used: one containing water information and the other documenting violation-level records. Rural-urban classification was assigned using the 2010 RUCA ZIP code dataset obtained from the University of Washington WWAMI Rural Health Research Center <span class="citation" data-cites="noauthor_rural_nodate">(<a href="#ref-noauthor_rural_nodate" role="doc-biblioref"><span>“Rural <span>Urban</span> <span>Commuting</span> <span>Area</span> <span>Codes</span> <span>Data</span>”</span> n.d.</a>)</span>.</p>
 </section>
 <section id="study-population" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="study-population"><span class="header-section-number">3.3</span> Study Population</h2>
@@ -131,7 +151,7 @@ ul.task-list li input[type="checkbox"] {
 <div id="fig-system-types" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-system-types-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="Manuscript1_files/figure-html/fig-system-types-1.png" class="img-fluid figure-img" width="864">
+<img src="Manuscript_files/figure-html/fig-system-types-1.png" class="img-fluid figure-img" width="864">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-system-types-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Distribution of public water system types in Georgia
@@ -149,7 +169,7 @@ Figure&nbsp;1: Distribution of public water system types in Georgia
 <div id="fig-population-distribution" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-population-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="Manuscript1_files/figure-html/fig-population-distribution-1.png" class="img-fluid figure-img" width="864">
+<img src="Manuscript_files/figure-html/fig-population-distribution-1.png" class="img-fluid figure-img" width="864">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-population-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2: Distribution of population served by public water systems in Georgia (log-scale)
@@ -381,7 +401,7 @@ Table&nbsp;3: Adjusted odds ratios for drinking water violation risk
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="Manuscript1_files/figure-html/log-system-types-1.png" class="img-fluid figure-img" width="864"></p>
+<p><img src="Manuscript_files/figure-html/log-system-types-1.png" class="img-fluid figure-img" width="864"></p>
 <figcaption>Figure 3: Odds Ratio for Logistic Regression Predictors</figcaption>
 </figure>
 </div>
@@ -433,9 +453,29 @@ Predicted    0    1
 <p>Despite identifying significant associations, the predictive performance of the models was modest, with an AUC of 0.63. This suggests that while rural status and system characteristics contribute to violation risk, additional unmeasured factors such as funding availability, infrastructure age, or management capacity likely influence compliance outcomes. The model’s lower sensitivity further indicates limited ability to identify systems at highest risk for violations.</p>
 <p>Several limitations should be considered. First, the use of the administrative data may introduce measurement error or inconsistencies in reporting violations. Second, rural classification based on ZIP code-level RUCA codes may not fully capture variation within service areas. Third, systems with missing RUCA classifications were excluded, which may affect generalizability. Finally, the cross-sectional nature of the analysis limits causal interpretation.</p>
 <p>Overall, these findings highlight persistent rural–urban disparities in drinking water system compliance in Georgia. Targeted policy and resource allocation strategies aimed at supporting rural water systems may be necessary to reduce these inequities and ensure equitable access to safe drinking water. Future research should explore additional system-level and contextual factors to better understand drivers of violation risk and improve predictive modeling efforts.</p>
+
 </section>
 
-</main>
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-allaire_national_2018" class="csl-entry" role="listitem">
+Allaire, Maura, Haowei Wu, and Upmanu Lall. 2018. <span>“National Trends in Drinking Water Quality Violations.”</span> <em>Proceedings of the National Academy of Sciences</em> 115 (9): 2078–83. <a href="https://doi.org/10.1073/pnas.1719805115">https://doi.org/10.1073/pnas.1719805115</a>.
+</div>
+<div id="ref-mcdonald_drinking_2018" class="csl-entry" role="listitem">
+McDonald, Yolanda J., and Nicole E. Jones. 2018. <span>“Drinking <span>Water</span> <span>Violations</span> and <span>Environmental</span> <span>Justice</span> in the <span>United</span> <span>States</span>, 2011–2015.”</span> <em>American Journal of Public Health</em> 108 (10): 1401–7. <a href="https://doi.org/10.2105/AJPH.2018.304621">https://doi.org/10.2105/AJPH.2018.304621</a>.
+</div>
+<div id="ref-noauthor_rural_nodate" class="csl-entry" role="listitem">
+<span>“Rural <span>Urban</span> <span>Commuting</span> <span>Area</span> <span>Codes</span> <span>Data</span>.”</span> n.d. Accessed April 12, 2026. <a href="https://depts.washington.edu/uwruca/ruca-codes.php">https://depts.washington.edu/uwruca/ruca-codes.php</a>.
+</div>
+<div id="ref-noauthor_sdwa_nodate" class="csl-entry" role="listitem">
+<span>“<span>SDWA</span> <span>Data</span> <span>Download</span> <span>Summary</span> and <span>Data</span> <span>Element</span> <span>Dictionary</span> <span></span> <span>ECHO</span> <span></span> <span>US</span> <span>EPA</span>.”</span> n.d. Accessed April 12, 2026. <a href="https://echo.epa.gov/tools/data-downloads/sdwa-download-summary">https://echo.epa.gov/tools/data-downloads/sdwa-download-summary</a>.
+</div>
+<div id="ref-noauthor_drinking_nodate" class="csl-entry" role="listitem">
+U. S. Centers for Disease Control and Prevention. n.d. <span>“Drinking <span>Water</span>.”</span> <a href="https://www.cdc.gov/drinking-water/?CDC_AAref_Val=https://www.cdc.gov/healthywater/drinking/public/water_disease.html">https://www.cdc.gov/drinking-water/?CDC_AAref_Val=https://www.cdc.gov/healthywater/drinking/public/water_disease.html</a>.
+</div>
+<div id="ref-noauthor_drinking_water_2023" class="csl-entry" role="listitem">
+World Health Organization (WHO). 2023. <span>“Drinking-Water,”</span> September. <a href="https://www.who.int/news-room/fact-sheets/detail/drinking-water">https://www.who.int/news-room/fact-sheets/detail/drinking-water</a>.
+</div>
+</div></section></div></main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {

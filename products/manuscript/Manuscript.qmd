@@ -10,9 +10,7 @@ execute:
   echo: false
   warning: false
   message: false
-bibliography: assets/references/references.bib
-resources:
-  - assets/references/
+bibliography: ../../assets/references/references.bib
 ---
 
 # Abstract
