@@ -2,7 +2,7 @@
 title: "An Analysis of Rural-Urban Difference in Drinking Water System Violations in Georgia"
 author: "Talia C. Swanson, B.S."
 format:
-  docx:
+  html:
     toc: false
     number-sections: true
     highlight-style: github
@@ -23,17 +23,22 @@ Overall, 8.5% of systems experienced at least one violation. Rural systems had s
 
 These findings suggest that rural water systems in Georgia face greater challenges in maintaining compliance with drinking water regulations. Targeted interventions addressing structural and resource constraints in rural systems may be necessary to reduce disparities and improve equitable access to safe drinking water.
 
-# Introduction
-Access to safe drinking water is a fundamental public health priority in the United States [@noauthor_drinking_water_2023]. Public water systems are regulated under the Safe Drinking Water Act to ensure compliance with health-based standards, however, disparities in water quality outcomes persist across geographic regions. Exposure to contaminted drinking water has been associated with a range of adverse health outcomes, including infectious disease and long-term chronic conditions[@noauthor_drinking_nodate].
 
-Emergine evidence suggests that these disparities are not uniformly distributed, with certain populations experiencing a disproportionate burden of drinking water violations. Prior research has documented significant geographic and sociodemographic variation in violation patterns, with rural communities and smaller water systems often facing elevated risks of noncompliance [@allaire_national_2018; @mcdonald_drinking_2018]. These disparities are thought to be driven by structural factors, including aging infrastructure, limited financial and technical capacity, reduced economies of scale, and challenges in regulatory oversight.
+# Introduction
+Access to safe drinking water is a fundamental public health priority in the United States of America [@noauthor_drinking_water_2023]. Public water systems are regulated under the Safe Drinking Water Act to ensure compliance with health-based standards, however, disparities in water quality outcomes persist across geographic regions. Exposure to contaminted drinking water has been associated with a range of adverse health outcomes, including infectious disease and long-term chronic conditions[@noauthor_drinking_nodate].
+
+Emerging evidence suggests that these disparities are not uniformly distributed, with certain populations experiencing a disproportionate burden of drinking water violations. Prior research has documented significant geographic and sociodemographic variation in violation patterns, with rural communities and smaller water systems often facing elevated risks of noncompliance [@allaire_national_2018; @mcdonald_drinking_2018]. These disparities are thought to be driven by structural factors, including aging infrastructure, limited financial and technical capacity, reduced economies of scale, and challenges in regulatory oversight.
 
 In Georgia, public water systems serve a diverse population across densely populated urban centers and sparsely populated rural areas. Rural systems, in particular, may face constraints that affect their ability to maintain consistent compliance with drinking water regulations. Despite national-level evidence of disparities, less is known about how these patterns manifest at the state level. Examining rural–urban differences in drinking water violations within Georgia is therefore critical for identifying vulnerable systems, informing targeted policy and regulatory interventions, and advancing efforts to ensure equitable access to safe drinking water.
 
 ## Research Question
 This analysis evaluated whether rural public water systems in Georgia are more likely to experience drinking water quality violations compared to urban water systems. The primary outcome of interest was the occurrence of at least one drinking water violation per system. The primary predictor was rural versus urban classification of the water system's service area. Additional system-level factors, including population served and system type, are considered as potential confounders.
 
+
 # Methods
+## Computational Assistance
+**ChatGPT** and **Copilot** were used to assist with troubleshooting coding errors and formatting ideas for cleaner tables. All code was reviewed by the author for clarity, understanding, and final decisions. 
+
 ## Data Source
 The primary data source is the Safe Drinking Information System (SDWIS), maintained by the Environmental Protection Agency (EPA)  [@noauthor_sdwa_nodate]. SDWIS collected information from public water systems and state primacy agencies, including characteristics, populations served, ownership type, geographic location, and violation records. Two SDWIS datasets were used: one containing water information and the other documenting violation-level records. Rural-urban classification was assigned using the 2010 RUCA ZIP code dataset obtained from the University of Washington WWAMI Rural Health Research Center [@noauthor_rural_nodate].
 
@@ -41,15 +46,16 @@ The primary data source is the Safe Drinking Information System (SDWIS), maintai
 The study population consisted of public water systems located in Georgia. Systems were identified using the Safe Drinking Water Information System (SDWIS) database maintained by the Environmental Protection Agency. After restricting the data to systems located in Georgia, a total of 5,256 public water systems were included in the analysis. These systems were categorized by water system type, including community water systems, transient non-community water systems, and non-transient non-community water systems.
 
 ## Outcome and Predictor Variable 
-  Outcome:
-  The primary outcome was whether a public water system in Georgia experienced at least one recorded drinking water quality violation.
+  **Outcome:**
+  The primary outcome is whether a public water system in Georgia experienced at least one recorded drinking water quality violation.
 
-  Primary Predictor: 
-  The primary predictor was the rural versus urban classification of the water system’s service area. Rural–urban status was assigned using Rural–Urban Commuting Area (RUCA) ZIP code classifications.
-    * RUCA Codes ≥ 4 were defined as rural areas
-    * RUCA Codes 1-3 were defined as urban
+  **Primary Predictor:**
+  The primary predictor is the rural versus urban classification of the water system’s service area. Rural–urban status was assigned using Rural–Urban Commuting Area (RUCA) ZIP code classifications.
+    
+      •RUCA Codes ≥ 4 were defined as rural areas
+      •RUCA Codes 1-3 were defined as urban
  
- Covariates:
+ **Covariates:**
   Additional covariates included water system type (community, transient non-community, or non-transient non-community) and the population served. Population served was log-transformed to account for the highly skewed distribution of system size.
 
 ## Statistical Analysis
@@ -463,4 +469,4 @@ Despite identifying significant associations, the predictive performance of the 
 
 Several limitations should be considered. First, the use of the administrative data may introduce measurement error or inconsistencies in reporting violations. Second, rural classification based on ZIP code-level RUCA codes may not fully capture variation within service areas. Third, systems with missing RUCA classifications were excluded, which may affect generalizability. Finally, the cross-sectional nature of the analysis limits causal interpretation.
 
-Overall, these findings highlight persistent rural–urban disparities in drinking water system compliance in Georgia. Targeted policy and resource allocation strategies aimed at supporting rural water systems may be necessary to reduce these inequities and ensure equitable access to safe drinking water. Future research should explore additional system-level and contextual factors to better understand drivers of violation risk and improve predictive modeling efforts.
+Overall, these findings highlight persistent rural–urban disparities in drinking water system compliance in Georgia. Targeted policy and resource allocation strategies aimed at supporting rural water systems may be necessary to reduce these inequities and ensure equitable access to safe drinking water. Future research should explore additional system-level and contextual factors to better understand drivers of violation risk and improve predictive modeling efforts. in study population is there any way to add like a table under this, that might be representative of the study population, a table summary that might be helpful 

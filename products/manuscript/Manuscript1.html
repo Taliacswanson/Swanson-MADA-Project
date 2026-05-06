@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Talia C. Swanson, B.S.">
+
+<title>An Analysis of Rural-Urban Difference in Drinking Water System Violations in Georgia</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="Manuscript1_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Manuscript1_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="Manuscript1_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="Manuscript1_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="Manuscript1_files/libs/quarto-html/popper.min.js"></script>
+<script src="Manuscript1_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Manuscript1_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Manuscript1_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Manuscript1_files/libs/quarto-html/quarto-syntax-highlighting-8b4baf804e461d9b72633f0de59a0cac.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Manuscript1_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Manuscript1_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Manuscript1_files/libs/bootstrap/bootstrap-b2aed5f364e5f698f22f3b9d1825bc81.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">An Analysis of Rural-Urban Difference in Drinking Water System Violations in Georgia</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Talia C. Swanson, B.S. </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="abstract" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Abstract</h1>
+<p>Access to safe drinking water is a critical public health priority, yet disparities in regulatory compliance persist across geographic regions in the United States. This study examined whether rural public water systems in Georgia are more likely to experience drinking water quality violations compared to urban systems. Data were obtained from the Environmental Protection Agency’s Safe Drinking Water Information System (SDWIS) and linked with Rural–Urban Commuting Area (RUCA) codes to classify systems as rural or urban. The study population included 5,256 public water systems across Georgia.</p>
+<p>The primary outcome was the occurrence of at least one recorded drinking water violation per system. Multivariable logistic regression was used to estimate the association between rural status and violation occurrence, adjusting for system type and population served (log-transformed).</p>
+<p>Overall, 8.5% of systems experienced at least one violation. Rural systems had significantly higher odds of violations compared to urban systems (OR = 1.84, 95% CI: 1.46–2.33). Larger systems were also associated with slightly increased odds of violations (OR = 1.15, 95% CI: 1.08–1.22), while non-community systems had lower odds relative to community water systems. Model performance was modest (AUC = 0.63), indicating limited ability to predict violations.</p>
+<p>These findings suggest that rural water systems in Georgia face greater challenges in maintaining compliance with drinking water regulations. Targeted interventions addressing structural and resource constraints in rural systems may be necessary to reduce disparities and improve equitable access to safe drinking water.</p>
+</section>
+<section id="introduction" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Introduction</h1>
+<p>Access to safe drinking water is a fundamental public health priority in the United States of America <span class="citation" data-cites="noauthor_drinking_water_2023">(<a href="#ref-noauthor_drinking_water_2023" role="doc-biblioref"><strong>noauthor_drinking_water_2023?</strong></a>)</span>. Public water systems are regulated under the Safe Drinking Water Act to ensure compliance with health-based standards, however, disparities in water quality outcomes persist across geographic regions. Exposure to contaminted drinking water has been associated with a range of adverse health outcomes, including infectious disease and long-term chronic conditions<span class="citation" data-cites="noauthor_drinking_nodate">(<a href="#ref-noauthor_drinking_nodate" role="doc-biblioref"><strong>noauthor_drinking_nodate?</strong></a>)</span>.</p>
+<p>Emerging evidence suggests that these disparities are not uniformly distributed, with certain populations experiencing a disproportionate burden of drinking water violations. Prior research has documented significant geographic and sociodemographic variation in violation patterns, with rural communities and smaller water systems often facing elevated risks of noncompliance <span class="citation" data-cites="allaire_national_2018 mcdonald_drinking_2018">(<a href="#ref-allaire_national_2018" role="doc-biblioref"><strong>allaire_national_2018?</strong></a>; <a href="#ref-mcdonald_drinking_2018" role="doc-biblioref"><strong>mcdonald_drinking_2018?</strong></a>)</span>. These disparities are thought to be driven by structural factors, including aging infrastructure, limited financial and technical capacity, reduced economies of scale, and challenges in regulatory oversight.</p>
+<p>In Georgia, public water systems serve a diverse population across densely populated urban centers and sparsely populated rural areas. Rural systems, in particular, may face constraints that affect their ability to maintain consistent compliance with drinking water regulations. Despite national-level evidence of disparities, less is known about how these patterns manifest at the state level. Examining rural–urban differences in drinking water violations within Georgia is therefore critical for identifying vulnerable systems, informing targeted policy and regulatory interventions, and advancing efforts to ensure equitable access to safe drinking water.</p>
+<section id="research-question" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="research-question"><span class="header-section-number">2.1</span> Research Question</h2>
+<p>This analysis evaluated whether rural public water systems in Georgia are more likely to experience drinking water quality violations compared to urban water systems. The primary outcome of interest was the occurrence of at least one drinking water violation per system. The primary predictor was rural versus urban classification of the water system’s service area. Additional system-level factors, including population served and system type, are considered as potential confounders.</p>
+</section>
+</section>
+<section id="methods" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Methods</h1>
+<section id="computational-assistance" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="computational-assistance"><span class="header-section-number">3.1</span> Computational Assistance</h2>
+<p><strong>ChatGPT</strong> and <strong>Copilot</strong> were used to assist with troubleshooting coding errors and formatting ideas for cleaner tables. All code was reviewed by the author for clarity, understanding, and final decisions.</p>
+</section>
+<section id="data-source" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="data-source"><span class="header-section-number">3.2</span> Data Source</h2>
+<p>The primary data source is the Safe Drinking Information System (SDWIS), maintained by the Environmental Protection Agency (EPA) <span class="citation" data-cites="noauthor_sdwa_nodate">(<a href="#ref-noauthor_sdwa_nodate" role="doc-biblioref"><strong>noauthor_sdwa_nodate?</strong></a>)</span>. SDWIS collected information from public water systems and state primacy agencies, including characteristics, populations served, ownership type, geographic location, and violation records. Two SDWIS datasets were used: one containing water information and the other documenting violation-level records. Rural-urban classification was assigned using the 2010 RUCA ZIP code dataset obtained from the University of Washington WWAMI Rural Health Research Center <span class="citation" data-cites="noauthor_rural_nodate">(<a href="#ref-noauthor_rural_nodate" role="doc-biblioref"><strong>noauthor_rural_nodate?</strong></a>)</span>.</p>
+</section>
+<section id="study-population" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="study-population"><span class="header-section-number">3.3</span> Study Population</h2>
+<p>The study population consisted of public water systems located in Georgia. Systems were identified using the Safe Drinking Water Information System (SDWIS) database maintained by the Environmental Protection Agency. After restricting the data to systems located in Georgia, a total of 5,256 public water systems were included in the analysis. These systems were categorized by water system type, including community water systems, transient non-community water systems, and non-transient non-community water systems.</p>
+</section>
+<section id="outcome-and-predictor-variable" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="outcome-and-predictor-variable"><span class="header-section-number">3.4</span> Outcome and Predictor Variable</h2>
+<p><strong>Outcome:</strong> The primary outcome is whether a public water system in Georgia experienced at least one recorded drinking water quality violation.</p>
+<p><strong>Primary Predictor:</strong> The primary predictor is the rural versus urban classification of the water system’s service area. Rural–urban status was assigned using Rural–Urban Commuting Area (RUCA) ZIP code classifications.</p>
+<pre><code>  •RUCA Codes ≥ 4 were defined as rural areas
+  •RUCA Codes 1-3 were defined as urban</code></pre>
+<p><strong>Covariates:</strong> Additional covariates included water system type (community, transient non-community, or non-transient non-community) and the population served. Population served was log-transformed to account for the highly skewed distribution of system size.</p>
+</section>
+<section id="statistical-analysis" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="statistical-analysis"><span class="header-section-number">3.5</span> Statistical Analysis</h2>
+<p>Descriptive statistics were used to summarize characteristics of the public water systems included in the study population. These summaries included counts of water systems by system type and distributional characteristics of the population served.</p>
+<p>Exploratory data analysis was conducted to examine patterns in the distribution of drinking water violations and system characteristics. Visualizations were used to evaluate variation in system size and to explore potential differences between rural and urban systems.</p>
+<p>To evaluate the association between rural status and the likelihood of experiencing a drinking water violation, a multivariable logistic regression model was fit. The model estimated the odds of experiencing at least one violation while adjusting for water system type and the log-transformed population served. Model results were summarized using odds ratios (OR) and corresponding 95% confidence intervals (CI).</p>
+</section>
+<section id="description-of-data-and-data-source" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="description-of-data-and-data-source"><span class="header-section-number">3.6</span> Description of data and data source</h2>
+<p>The primary data source for this project is the Safe Drinking Water Information System (SDWIS) maintained by the Environmental Protection Agency (EPA). SDWIS is a national database maintained by the EPA to monitor compliance with the Safe Drinking Water Act. The data were collected through reports submitted by public water systems and state primacy agencies, including detailed information on water system characteristics and drinking water violations.</p>
+<p>Two primary SDWIS datasets were used: the first contains water system-level information including system identification numbers, system type, population served, geographic location, and ownership characteristics. The second dataset includes violation level records, documenting containment, violation type and dates.</p>
+</section>
+<section id="questionshypotheses-to-be-addressed" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="questionshypotheses-to-be-addressed"><span class="header-section-number">3.7</span> Questions/Hypotheses to be addressed</h2>
+<p>The primary research question for this project is:</p>
+<p>Are rural public water systems in Georgia more likely to experience drinking water quality violations compared to urban water systems? The outcome of interest is the occurrence of drinking water quality violations (either as a binary indicator or collective count of violations per system). The primary predictor of interest is rural versus urban area classification of the water system’s service area. The analysis explored patterns in violation frequency and distribution across rural and urban systems and assesses whether disparities persist after accounting for system and community characteristics.</p>
+</section>
+</section>
+<section id="results" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Results</h1>
+<p>The dataset used for this analysis was restricted to public water systems located in Georgia (n = 5,256). The STATE_CODE variable confirms that all systems in the dataset correspond to Georgia</p>
+<p>Exploratory data analysis was conducted to examine characteristics of public water systems in Georgia and to understand the distribution of key variables prior to statistical modeling. These analyses focused on system type, population served, and the distribution of drinking water violations across systems.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Manuscript1_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The distribution of population served varied widely across water systems. Approximately 25% of systems served fewer than 49 individuals, while 75% served fewer than 262 individuals, indicating that many systems in Georgia serve relatively small populations.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Manuscript1_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Number of systems by count of drinking water violations</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Violation_Count</th>
+<th style="text-align: right;">Number_of_Systems</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">210</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">60</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">39</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">16</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">17</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">24</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">36</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">48</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">71</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Manuscript1_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The majority of public water systems had no recorded drinking water violations. However, a smaller subset of systems experienced one or more violations, indicating that violations were relatively uncommon overall but still present across multiple systems.</p>
+<section id="inferential-analysis" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="inferential-analysis"><span class="header-section-number">4.1</span> Inferential Analysis</h2>
+<p>Moving forward to formally evaluate whether rural public water systems in Georgia are more likely to experience drinking water violations compared to urban systems, a multivariable logistic regression model was fit. The outcome of interest was whether a system experienced at least one violation. The primary predictor of interest was rural versus urban classification. The model additionally adjusted for population served and water system type to account for potential confounding.</p>
+</section>
+<section id="creating-system-level-violation-counts" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="creating-system-level-violation-counts"><span class="header-section-number">4.2</span> Creating System-Level Violation Counts</h2>
+<p>System-level violation counts were calculated. Among Georgia public water systems, 8.5% had at least one recorded violation, while 91.5% had none.</p>
+</section>
+<section id="merging-rural-urban-classification" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="merging-rural-urban-classification"><span class="header-section-number">4.3</span> Merging Rural-Urban Classification</h2>
+<p>Rural-urban classification was assigned using RUCA codes: codes 1-3 urban, ≥4 as rural. Systems with missing RUCA values were excluded.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>First 6 rows of ZIP code, RUCA code, and rural indicator</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">ZIP_CODE</th>
+<th style="text-align: right;">PrimaryRUCA</th>
+<th style="text-align: right;">rural</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">304585591</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">30731</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">317510000</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">31751</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">31751</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">31751</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Counts of rural indicator (0 = urban, 1 = rural, NA = missing)</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Rural Indicator</th>
+<th style="text-align: right;">Number of ZIP Codes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2186</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1653</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1417</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Rural indicator (rural) was created using the PrimaryRUCA codes from the RUCA ZIPCode dataset. For ZIP codes in the water systems data that did not have a corresponding RUCA code, the rural value is NA. These NA values are currently kept in the dataset to indicate missing RUCA information. The majority of public water systems had no recorded drinking water violations. Systems with missing RUCA classifications were removed from the dataset to ensure accurate rural-urban classification in subsequent analyses.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+   0    1 
+2186 1653 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3839</code></pre>
+</div>
+</div>
+</section>
+<section id="creating-a-binary-outcome-system" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="creating-a-binary-outcome-system"><span class="header-section-number">4.4</span> Creating A Binary Outcome System</h2>
+<p>A binary outcome was created to indicate whether a system had ≥1 violation. Violations were relatively uncommon, affecting 8.5% of systems.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+   0    1 
+3513  326 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+         0          1 
+0.91508205 0.08491795 </code></pre>
+</div>
+</div>
+</section>
+<section id="preparing-modeling-variables" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="preparing-modeling-variables"><span class="header-section-number">4.5</span> Preparing Modeling Variables</h2>
+<p>Population served was log-transformed due to right-skew. Rural status and water system type were treated as categorical variables.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  0.000   3.912   4.605   4.994   5.667  13.902 </code></pre>
+</div>
+</div>
+</section>
+<section id="logistic-regression" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="logistic-regression"><span class="header-section-number">4.6</span> Logistic Regression</h2>
+<p>Results from the multivariable logistic regression indicated that rural public water systems had higher odds of experiencing at least one drinking water violation compared with urban systems (OR = 1.84, 95% CI: 1.46–2.33). Larger systems also had slightly higher odds of violations, with an odds ratio of 1.15 per unit increase in log-transformed population served (95% CI: 1.08–1.22).</p>
+<p>Compared with community water systems, non-transient non-community water systems had substantially lower odds of violations (OR = 0.37, 95% CI: 0.21–0.61), and transient non-community water systems also had lower odds (OR = 0.51, 95% CI: 0.39–0.68). Overall, these results suggest that rural systems may face greater challenges in maintaining drinking water compliance, even after accounting for system size and system type.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Odds ratios and 95% confidence intervals from logistic regression predicting at least one violation</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Predictor</th>
+<th style="text-align: right;">OR</th>
+<th style="text-align: right;">95% CI Lower</th>
+<th style="text-align: right;">95% CI Upper</th>
+<th style="text-align: right;">p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">rural1</td>
+<td style="text-align: right;">1.84</td>
+<td style="text-align: right;">1.46</td>
+<td style="text-align: right;">2.33</td>
+<td style="text-align: right;">3.00e-07</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">log_population</td>
+<td style="text-align: right;">1.15</td>
+<td style="text-align: right;">1.08</td>
+<td style="text-align: right;">1.22</td>
+<td style="text-align: right;">1.50e-05</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PWS_TYPE_CODENTNCWS</td>
+<td style="text-align: right;">0.37</td>
+<td style="text-align: right;">0.21</td>
+<td style="text-align: right;">0.61</td>
+<td style="text-align: right;">3.11e-04</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PWS_TYPE_CODETNCWS</td>
+<td style="text-align: right;">0.51</td>
+<td style="text-align: right;">0.39</td>
+<td style="text-align: right;">0.68</td>
+<td style="text-align: right;">3.90e-06</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Figure _ displays odds ratios and 95% confidence intervals from the multivariable logistic regression, showing associations between rural status, population served, water system type, and violation likelihood.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Manuscript1_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="model-performance-section" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="model-performance-section"><span class="header-section-number">4.7</span> Model Performance Section</h2>
+<p>The logistic regression model was evaluated using a 70/30 train-test split to assess its performance on unseen data. On the held-out test dataset, the model achieved a classification accuracy of 91.4%. However, this high level of accuracy is largely driven by class imbalance in the outcome, as approximately 91.5% of public water systems in the dataset did not experience any drinking water violations. As a result, overall accuracy primarily reflects correct classification of the majority class rather than strong predictive performance for identifying systems that experience violations.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9143357</code></pre>
+</div>
+</div>
+<p>To better assess the model’s ability to distinguish between systems with and without drinking water violations, the area under the receiver operating characteristic curve (AUC) was calculated. The model achieved an AUC of 0.63, indicating modest discriminatory ability. While this performance is better than random classification, it suggests limited effectiveness in separating systems that experience violations from those that do not. Overall, the results indicate that the model captures some signal associated with violation risk, but predictive performance is constrained, likely due to unmeasured factors influencing drinking water violations.</p>
+</section>
+<section id="calibration-and-confusion-matrix-assessment" class="level2" data-number="4.8">
+<h2 data-number="4.8" class="anchored" data-anchor-id="calibration-and-confusion-matrix-assessment"><span class="header-section-number">4.8</span> Calibration and Confusion Matrix Assessment</h2>
+<p>To further evaluate model performance, a confusion matrix was examined at a fixed classification threshold of 0.5 to assess sensitivity and specificity. Given the strong class imbalance in the outcome, additional emphasis was placed on the model’s ability to correctly identify systems experiencing at least one violation (sensitivity), rather than overall accuracy alone. The results indicate that while the model performs well in identifying non-violation cases, its sensitivity for detecting violation-prone systems is comparatively lower, consistent with the moderate AUC observed.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>         Actual
+Predicted    0    1
+        0 1046   98</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+</div>
+<p>Sensitivity and specificity provide additional insight into model behavior beyond overall accuracy. The model demonstrates higher specificity than sensitivity, indicating it is better at correctly identifying systems without violations than correctly detecting systems that do experience violations. This pattern is expected given the imbalance in the outcome distribution and suggests that additional modeling strategies or feature engineering may be needed to improve detection of higher-risk systems.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+roc.default(response = test$any_violation, predictor = test$pred)
+
+Data: test$pred in 1046 controls (test$any_violation 0) &lt; 98 cases (test$any_violation 1).
+Area under the curve: 0.6332</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Area under the curve: 0.6332</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="discussion" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Discussion</h1>
+<p>The analysis found that rural public water systems in Georgia had greater odds of experiencing drinking water violations compared to urban systems, even after adjusting for system size and water system type. These findings are consistent with prior research suggesting rural systems face structural challenges that may limit their ability to maintain regulatory compliance. Smaller tax bases, aging infrastructure, and limited capacity may contribute to these disparities, placing rural communities at increased risk of exposure to unsafe drinking water.</p>
+<p>In addition to rural-uran differences, system-level characteristics also have an important role. Larger systems demonstrated higher odds of violations, which may reflect increase regulatory scrutiny or more complex operational demands. Conversely, non-community water systems exhibited lower odds of violations compared to community systems, potentially due to differences in regulatoray requirements or patterns of water use.</p>
+<p>Despite identifying significant associations, the predictive performance of the models was modest, with an AUC of 0.63. This suggests that while rural status and system characteristics contribute to violation risk, additional unmeasured factors such as funding availability, infrastructure age, or management capacity likely influence compliance outcomes. The model’s lower sensitivity further indicates limited ability to identify systems at highest risk for violations.</p>
+<p>Several limitations should be considered. First, the use of the administrative data may introduce measurement error or inconsistencies in reporting violations. Second, rural classification based on ZIP code-level RUCA codes may not fully capture variation within service areas. Third, systems with missing RUCA classifications were excluded, which may affect generalizability. Finally, the cross-sectional nature of the analysis limits causal interpretation.</p>
+<p>Overall, these findings highlight persistent rural–urban disparities in drinking water system compliance in Georgia. Targeted policy and resource allocation strategies aimed at supporting rural water systems may be necessary to reduce these inequities and ensure equitable access to safe drinking water. Future research should explore additional system-level and contextual factors to better understand drivers of violation risk and improve predictive modeling efforts. in study population is there any way to add like a table under this, that might be representative of the study population, a table summary that might be helpful</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
