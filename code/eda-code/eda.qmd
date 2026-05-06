@@ -16,17 +16,19 @@ library(knitr)
 # Load datasets
 systems <- read_csv(here("data/raw-data/GA_PUB_WATER_SYSTEMS.csv"))
 ruca <- read_csv(here("data/raw-data/RUCA-codes-2020-zipcode.csv"))
+violations <- read_csv(here("data/raw-data/SDWA_PN_VIOLATIONS_ASSOC.csv"))
 ```
 
 The structure of the datasets is inspected to understand the variables available for analysis.
 
+## Inspect Data Structure
 ```{r}
 glimpse(systems)
 glimpse(ruca)
+glimpse(violations)
 ```
 
-## Confirm Georgia water systems
-
+## Restrict to Georgia Systems
 ```{r}
 systems_ga <- systems
 
@@ -34,8 +36,7 @@ systems_ga <- systems
 nrow(systems_ga)
 ```
 
-## Explore water system types
-
+## Explore water system type
 Next, the distribution of different types of public water systems in Georgia is examined.
 
 ``` {r}
@@ -58,7 +59,8 @@ systems_ga |>
 Summary statistics are used to understand the distribution and range of populations served by water systems.
 summary
 
-```{r}(systems_ga$POPULATION_SERVED_COUNT)
+```{r}
+summary(systems_ga$POPULATION_SERVED_COUNT)
 ```
 
 The distribution of population served is visualized using a histogram.
@@ -83,40 +85,28 @@ ggplot(
   )
 ```
 
-## Violation dataset exploration
+## Violation Data Prep
 
 ```{r}
-systems_ga_filtered <- systems_ga |>
-  filter(POPULATION_SERVED_COUNT>0)
+violation <- violations %>%
+  filter(!is.na(PWSID))
 
-ggplot(
-  data=systems_ga_filtered,
-  mapping = aes(x=POPULATION_SERVED_COUNT)
-) +
-  geom_histogram(bins=40)+
-  scale_x_log10(
-    breaks = c(10,100,1000,10000,100000),
-    labels = c("10", "100", "1,000", "10,000", "100,000")
-  ) +
-  labs(
-    title = "Distribution of Population Served by Public Water Systems in Georgia",
-    x= "Population Served",
-    y= "Number of Systems"
-  )
+violations_ga <- violations %>%
+  inner_join(systems_ga %>% select(PWSID))
 ```
 
-## Count violations
-
-The number of violations per system is summarized to understand how frequently violations occur across water systems.
-
+## Violation Summary
 ```{r}
 violation_summary <- violations_ga %>%
   group_by(PWSID) %>%
   summarise(violation_count = n()) %>%
   count(violation_count) %>%
-  rename(Number_of_Systems = n, Violation_Count = violation_count)
+  rename(
+    Number_of_Systems = n, 
+    Violation_Count = violation_count
+  )
 
-print(violation_summary)
+kable(violation_summary)
 ```
 
 ## Violation distribution plot
