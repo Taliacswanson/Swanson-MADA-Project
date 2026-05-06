@@ -2,11 +2,11 @@
 # An Analysis of Rural-Urban Differences in
 # Drinking Water System Violations in Georgia
 # Author: Talia C. Swanson
-# ============================================================
+============================================================
 
 This section constructs the final analysis dataset and performs the statistical analysis used to evaluate whether rural public water systems in Georgia are more likely to experience drinking water violations compared to urban systems.
 
-The analysis proceeds in several steps. First, violation records are aggregated to the water system level. Next, the violation data are merged with the system-level dataset. Rural classification is then added using RUCA ZIP code data. Finally, a logistic regression model is fit to evaluate the association between rural status and the likelihood of at least one violation.
+The analysis proceeds by aggregating violation records, merging datasets, and preparing variables for regression modeling.
 
 ```{r}
 library(tidyverse)
@@ -14,9 +14,10 @@ library(here)
 library(broom)
 library(ggplot2)
 library(pROC)
+library(tidyr)
 ```
 
-## Load datasets 
+## Load Datasets 
 
 The datasets required to construct the analysis dataset are loaded. These include the public water systems dataset, the violation records dataset, and the RUCA ZIP code classification dataset.
 
@@ -25,10 +26,11 @@ systems <- read_csv(here("data/raw-data/GA_PUB_WATER_SYSTEMS.csv"))
 violations <- read_csv(here("data/raw-data/SDWA_PN_VIOLATION_ASSOC.csv"))
 ruca <- read_csv(here("data/raw-data/RUCA-codes-2020-zipcode.csv"))
 
-systems_ga <- systems
+systems_ga <- systems %>%
+  filter(STATE_CODE == "GA")
 ```
 
-## Restrict violation to GA Systems
+## Restrict Violation to GA Systems
 
 Violation records are restricted to those associated with Georgia public water systems by joining the violations dataset with the system-level dataset.
 
@@ -44,31 +46,21 @@ Violation records are aggregated to the system level by counting the number of v
 ```{r}
 violation_counts <- violations_ga %>%
   group_by(PWSID) %>%
-  summarise(violation_count = n())
+  summarise(violation_count = n(), .groups = "drop")
 ```
 
-=================================================
-### Create analysis dataset
+
+## Create analysis dataset
 
 The system-level violation counts are merged back into the water system dataset. Systems with no recorded violations are assigned a value of zero.
 ```{r}
-# IDK LOOK AT THIS PLEASE would it be if else or replace
-analysis_data <- systems_ga %>%
-  left_join(violation_counts, by = "PWSID") %>%
-  mutate(
-    violation_count = replace_na(violation_count), 0, violation_count)
-  )
-```
-
-```{r}
-# IDK LOOK AT THIS PLEASE would it be if else or replace
 analysis_data <- systems_ga %>%
   left_join(violation_counts, by = "PWSID") %>%
   mutate(
     violation_count = ifelse(is.na(violation_count), 0, violation_count)
   )
 ```
-===========================================================
+
 
 ## Merge RUCA Classification Data
 
@@ -82,19 +74,23 @@ ruca <- ruca %>%
   mutate(ZIPCode = as.character(ZIPCode))
 
 analysis_data <- analysis_data %>%
-  left_join(ruca, by = c ("ZIP_CODE" = "ZIPCode"))
+  left_join(ruca, by = c("ZIP_CODE" = "ZIPCode"))
 ```
 
 ## Create rural variable (RUCA >=4 = rural)
 
-A rural indicator variable is created based on RUCA codes. Systems with RUCA codes greater than or equal to 4 are classified as rural.
+A rural indicator variable is created based on RUCA codes. Systems with RUCA codes greater than or equal to 4 are classified as rural. Code 1-3 indicate urban areas. Systems without RUCA classification are removed 
 
 ```{r}
 analysis_data <- analysis_data %>%
   mutate(
-    rural = ifelse(PrimaryRUCA >= 4, 1, 0)
+    rural = case_when(
+      PrimaryRUCA >= 4 ~ 1,
+      PrimaryRUCA <= 3 ~ 0,
+      TRUE ~ NA_real_
+    )
   ) %>%
-  filter(!is.na(rural)) 
+  filter(!is.na(rural))
 ```
 
 ## Create binary outcome
@@ -137,9 +133,9 @@ A multivariable logistic regression model is fit to evaluate whether rural water
 
 ```{r}
 model1 <- glm(
-  any_violation ~ rural + log_population + PWS_TYPE_CODE, 
+  any_violation ~ rural + log_population + PWS_TYPE_CODE,
   data = analysis_data,
-  family = binomial 
+  family = binomial
 )
 
 summary(model1)
@@ -150,10 +146,11 @@ summary(model1)
 A multivariable logistic regression model is fit to evaluate whether rural water systems have higher odds of experiencing at least one drinking water violation, adjusting for population served and water system type.
 
 ```{r}
-exp_coef <- exp(cbind(
-  OR = coef(model1),                       
+or_table <- exp(cbind(
+  OR = coef(model1),
   confint(model1)
 ))
+
 or_table
 ```
 
@@ -171,9 +168,9 @@ ggplot(tidy_model_plot, aes(x = term, y = estimate)) +
   geom_point(size = 3, color = "steelblue") +
   geom_errorbar(
     aes(ymin = conf.low, ymax = conf.high),
-    width = 0.2, 
+    width = 0.2,
     color = "steelblue"
-    ) +
+  ) +
   coord_flip() +
   labs(
     title = "Odds Ratios for Logistic Regression Predictors",
@@ -183,32 +180,42 @@ ggplot(tidy_model_plot, aes(x = term, y = estimate)) +
   theme_minimal()
 ```
 
-# Model Performance
+# Model Performance | Train-test split
+The dataset is split into training (70%) and testing (30%) sets to evaluate model performance on unseen data.
 ```{r}
 set.seed(123)
 
 index <- sample(nrow(analysis_data), 0.7 * nrow(analysis_data))
 
 train <- analysis_data[index, ]
-test <- analaysis_data[-index, ]
+test <- analysis_data[-index, ]
+```
 
+# Fit training model and generate predictions
+The logistic regresison model is fit on the training dataset and used to generate predicted probabilites on the test dataset.
+
+```{r}
 model_train <- glm(
-  any_violation ~ rural + log population + PWS_TYPE_CODE,
-  data = train, 
+  any_violation ~ rural + log_population + PWS_TYPE_CODE,
+  data = train,
   family = binomial
 )
+
 test$pred <- predict(model_train, newdata = test, type = "response")
 test$class <- ifelse(test$pred > 0.5, 1, 0)
 ```
 
+# Model Accuracy and Confusion Matrix
+Model accuracy and confusion matrix are calculated to assess classification performance
 ```{r}
-# Accuracy
 mean(test$class == as.numeric(as.character(test$any_violation)))
 
-# Confusion matrix
 table(Predicted = test$class, Actual = test$any_violation)
+```
 
-# Sensitivity & specificity
+# Sensitivity and Specificity 
+Sensitivity and specificity are calculated to evaluate model performance on each class.
+```{r}
 TP <- sum(test$class == 1 & test$any_violation == 1)
 TN <- sum(test$class == 0 & test$any_violation == 0)
 FP <- sum(test$class == 1 & test$any_violation == 0)
@@ -219,8 +226,15 @@ specificity <- TN / (TN + FP)
 
 sensitivity
 specificity
+```
 
-# AUC
-roc_obj <- roc(test$any_violation, test$pred)
+# ROC curve and AUC
+Model discrimination ability is evaluated using the area under the receiver operating characteristic curve (AUC).
+```{r}
+roc_obj <- roc(
+  response = as.numeric(as.character(test$any_violation)),
+  predictor = test$pred
+)
+
 auc(roc_obj)
 ```

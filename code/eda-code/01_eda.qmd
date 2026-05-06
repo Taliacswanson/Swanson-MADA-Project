@@ -1,11 +1,11 @@
 
-# ============================================================
+============================================================
 # An Analysis of Rural-Urban Differences in
 # Drinking Water System Violations in Georgia
 # Author: Talia C. Swanson
-# ============================================================
+============================================================
 
-This section performs exploratory data analysis to better understand the structure o f the SDWIS public water systems dataset and examine basic characteristics of water systems in Georgia.
+This section performs exploratory data analysis to better understand the structure of the SDWIS public water systems dataset and examine basic characteristics of water systems in Georgia.
 
 ## Load Packages + Data
 ```{r}
@@ -30,11 +30,14 @@ glimpse(violations)
 
 ## Restrict to Georgia Systems
 ```{r}
-systems_ga <- systems
+systems_ga <- systems %>%
+  filter(STATE_CODE == "GA")
 
 # Check sample size
 nrow(systems_ga)
 ```
+
+The dataset was restricted to public water systems located in Georgia (n = 5,256).
 
 ## Explore water system type
 Next, the distribution of different types of public water systems in Georgia is examined.
@@ -54,6 +57,7 @@ systems_ga |>
   count(PWS_TYPE_CODE, sort = TRUE)
 ```
 
+
 ## Population served summary and distribution
 
 Summary statistics are used to understand the distribution and range of populations served by water systems.
@@ -63,7 +67,7 @@ summary
 summary(systems_ga$POPULATION_SERVED_COUNT)
 ```
 
-The distribution of population served is visualized using a histogram.
+The distribution of population served is visualized to assess skewness and identify whether transformation is required.
 
 ```{r}
 systems_ga_filtered <- systems_ga |>
@@ -86,7 +90,6 @@ ggplot(
 ```
 
 ## Violation Data Prep
-
 ```{r}
 violation <- violations %>%
   filter(!is.na(PWSID))
@@ -94,6 +97,8 @@ violation <- violations %>%
 violations_ga <- violations %>%
   inner_join(systems_ga %>% select(PWSID))
 ```
+
+Violations were linked to Georgia public water systems using system identifiers.
 
 ## Violation Summary
 ```{r}
