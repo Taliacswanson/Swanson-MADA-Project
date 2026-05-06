@@ -117,14 +117,9 @@ ul.task-list li input[type="checkbox"] {
 <p>To evaluate the association between rural status and the likelihood of experiencing a drinking water violation, a multivariable logistic regression model was fit. The model estimated the odds of experiencing at least one violation while adjusting for water system type and the log-transformed population served. Model results were summarized using odds ratios (OR) and corresponding 95% confidence intervals (CI).</p>
 </section>
 <section id="description-of-data-and-data-source" class="level2" data-number="3.6">
-<h2 data-number="3.6" class="anchored" data-anchor-id="description-of-data-and-data-source"><span class="header-section-number">3.6</span> Description of data and data source</h2>
+<h2 data-number="3.6" class="anchored" data-anchor-id="description-of-data-and-data-source"><span class="header-section-number">3.6</span> Description of Data and Data Source</h2>
 <p>The primary data source for this project is the Safe Drinking Water Information System (SDWIS) maintained by the Environmental Protection Agency (EPA). SDWIS is a national database maintained by the EPA to monitor compliance with the Safe Drinking Water Act. The data were collected through reports submitted by public water systems and state primacy agencies, including detailed information on water system characteristics and drinking water violations.</p>
 <p>Two primary SDWIS datasets were used: the first contains water system-level information including system identification numbers, system type, population served, geographic location, and ownership characteristics. The second dataset includes violation level records, documenting containment, violation type and dates.</p>
-</section>
-<section id="questionshypotheses-to-be-addressed" class="level2" data-number="3.7">
-<h2 data-number="3.7" class="anchored" data-anchor-id="questionshypotheses-to-be-addressed"><span class="header-section-number">3.7</span> Questions/Hypotheses to be addressed</h2>
-<p>The primary research question for this project is:</p>
-<p>Are rural public water systems in Georgia more likely to experience drinking water quality violations compared to urban water systems? The outcome of interest is the occurrence of drinking water quality violations (either as a binary indicator or collective count of violations per system). The primary predictor of interest is rural versus urban area classification of the water system’s service area. The analysis explored patterns in violation frequency and distribution across rural and urban systems and assesses whether disparities persist after accounting for system and community characteristics.</p>
 </section>
 </section>
 <section id="results" class="level1" data-number="4">
@@ -133,125 +128,137 @@ ul.task-list li input[type="checkbox"] {
 <p>Exploratory data analysis was conducted to examine characteristics of public water systems in Georgia and to understand the distribution of key variables prior to statistical modeling. These analyses focused on system type, population served, and the distribution of drinking water violations across systems.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Manuscript1_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="864"></p>
+<div id="fig-system-types" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-system-types-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Manuscript1_files/figure-html/fig-system-types-1.png" class="img-fluid figure-img" width="864">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-system-types-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Distribution of public water system types in Georgia
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
+<p style="font-size: 0.9em; color: #555;">
+<em>Footnote.</em> CWS = Community Water System; NTNCWS = Non-Transient Non-Community Water System; TNCWS = Transient Non-Community Water System.
+</p>
 <p>The distribution of population served varied widely across water systems. Approximately 25% of systems served fewer than 49 individuals, while 75% served fewer than 262 individuals, indicating that many systems in Georgia serve relatively small populations.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Manuscript1_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="864"></p>
+<div id="fig-population-distribution" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-population-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Manuscript1_files/figure-html/fig-population-distribution-1.png" class="img-fluid figure-img" width="864">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-population-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Distribution of population served by public water systems in Georgia (log-scale)
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
 <div class="cell">
+<div id="tbl-violation-distribution" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-violation-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Distribution of drinking water violations across public water systems in Georgia
+</figcaption>
+<div aria-describedby="tbl-violation-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<caption>Number of systems by count of drinking water violations</caption>
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
-<th style="text-align: right;">Violation_Count</th>
-<th style="text-align: right;">Number_of_Systems</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Violation_Count</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Number_of_Systems</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">210</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">210</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">60</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">60</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">39</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">39</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">16</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">16</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">4</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">4</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">6</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">6</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">7</td>
-<td style="text-align: right;">6</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">6</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">3</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">3</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">2</td>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">2</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">12</td>
-<td style="text-align: right;">17</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">17</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">13</td>
-<td style="text-align: right;">4</td>
+<td style="text-align: center;">13</td>
+<td style="text-align: center;">4</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">14</td>
-<td style="text-align: right;">6</td>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">6</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">15</td>
-<td style="text-align: right;">2</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">2</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">16</td>
-<td style="text-align: right;">1</td>
+<td style="text-align: center;">16</td>
+<td style="text-align: center;">1</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">20</td>
-<td style="text-align: right;">1</td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">1</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">24</td>
-<td style="text-align: right;">5</td>
+<td style="text-align: center;">24</td>
+<td style="text-align: center;">5</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">36</td>
-<td style="text-align: right;">1</td>
+<td style="text-align: center;">36</td>
+<td style="text-align: center;">1</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">48</td>
-<td style="text-align: right;">1</td>
+<td style="text-align: center;">48</td>
+<td style="text-align: center;">1</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">60</td>
-<td style="text-align: right;">1</td>
+<td style="text-align: center;">60</td>
+<td style="text-align: center;">1</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">71</td>
-<td style="text-align: right;">1</td>
+<td style="text-align: center;">71</td>
+<td style="text-align: center;">1</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Manuscript1_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="864"></p>
 </figure>
-</div>
 </div>
 </div>
 <p>The majority of public water systems had no recorded drinking water violations. However, a smaller subset of systems experienced one or more violations, indicating that violations were relatively uncommon overall but still present across multiple systems.</p>
@@ -265,124 +272,66 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="merging-rural-urban-classification" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="merging-rural-urban-classification"><span class="header-section-number">4.3</span> Merging Rural-Urban Classification</h2>
-<p>Rural-urban classification was assigned using RUCA codes: codes 1-3 urban, ≥4 as rural. Systems with missing RUCA values were excluded.</p>
+<p>Rural-urban classification was assigned using Rural-Urban Commuting Area (RUCA) codes. RUCA codes 1-3 represent urban areas, while codes ≥4 represent rural areas. ZIP codes without a matching RUCA classification were treated as missing.</p>
+</section>
+<section id="distribution-of-rural-and-urban-systems" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="distribution-of-rural-and-urban-systems"><span class="header-section-number">4.4</span> Distribution of Rural and Urban Systems</h2>
 <div class="cell">
+<div id="tbl-rural-distribution" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-rural-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: Distribution of rural and urban public water systems in Georgia.
+</figcaption>
+<div aria-describedby="tbl-rural-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<caption>First 6 rows of ZIP code, RUCA code, and rural indicator</caption>
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
-<th style="text-align: left;">ZIP_CODE</th>
-<th style="text-align: right;">PrimaryRUCA</th>
-<th style="text-align: right;">rural</th>
+<th style="text-align: left;">Rural_Status</th>
+<th style="text-align: right;">Number of Systems</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">304585591</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
+<td style="text-align: left;">Missing</td>
+<td style="text-align: right;">1417</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">30731</td>
-<td style="text-align: right;">10</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">317510000</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">31751</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">31751</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">31751</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<caption>Counts of rural indicator (0 = urban, 1 = rural, NA = missing)</caption>
-<thead>
-<tr class="header">
-<th style="text-align: right;">Rural Indicator</th>
-<th style="text-align: right;">Number of ZIP Codes</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">2186</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">1</td>
+<td style="text-align: left;">Rural</td>
 <td style="text-align: right;">1653</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">1417</td>
+<td style="text-align: left;">Urban</td>
+<td style="text-align: right;">2186</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<p>Rural indicator (rural) was created using the PrimaryRUCA codes from the RUCA ZIPCode dataset. For ZIP codes in the water systems data that did not have a corresponding RUCA code, the rural value is NA. These NA values are currently kept in the dataset to indicate missing RUCA information. The majority of public water systems had no recorded drinking water violations. Systems with missing RUCA classifications were removed from the dataset to ensure accurate rural-urban classification in subsequent analyses.</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>
-   0    1 
-2186 1653 </code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 3839</code></pre>
+</figure>
 </div>
 </div>
+<p>Systems with missing RUCA classification were excluded from subsequent analyses. After exclusion, the final analytical sample included 3,389 public water systems, of which 1,653 were classfifie as rural and 2,186 as urban.</p>
 </section>
-<section id="creating-a-binary-outcome-system" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="creating-a-binary-outcome-system"><span class="header-section-number">4.4</span> Creating A Binary Outcome System</h2>
-<p>A binary outcome was created to indicate whether a system had ≥1 violation. Violations were relatively uncommon, affecting 8.5% of systems.</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>
-   0    1 
-3513  326 </code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-         0          1 
-0.91508205 0.08491795 </code></pre>
-</div>
-</div>
-</section>
-<section id="preparing-modeling-variables" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="preparing-modeling-variables"><span class="header-section-number">4.5</span> Preparing Modeling Variables</h2>
-<p>Population served was log-transformed due to right-skew. Rural status and water system type were treated as categorical variables.</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-  0.000   3.912   4.605   4.994   5.667  13.902 </code></pre>
-</div>
-</div>
+<section id="creation-and-preparation-of-variables" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="creation-and-preparation-of-variables"><span class="header-section-number">4.5</span> Creation and Preparation of Variables</h2>
+<p>Systems with missing RUCA classification were excluded from subsequent analyses. After exclusions, the final analytic sample included 3,839 public water systems, of which, 1,653 were classified as rural and 2,186 as urban.</p>
+<p>A binary outcome variable was created to indicate whether a systes experienced at least one drinking water violation (1 = yes, 0 = no).</p>
+<p>Population served was log-transformed due to right-skewness. Rural status, outcome, and water system type were treated as categorical variables for regression analysis.</p>
 </section>
 <section id="logistic-regression" class="level2" data-number="4.6">
 <h2 data-number="4.6" class="anchored" data-anchor-id="logistic-regression"><span class="header-section-number">4.6</span> Logistic Regression</h2>
 <p>Results from the multivariable logistic regression indicated that rural public water systems had higher odds of experiencing at least one drinking water violation compared with urban systems (OR = 1.84, 95% CI: 1.46–2.33). Larger systems also had slightly higher odds of violations, with an odds ratio of 1.15 per unit increase in log-transformed population served (95% CI: 1.08–1.22).</p>
 <p>Compared with community water systems, non-transient non-community water systems had substantially lower odds of violations (OR = 0.37, 95% CI: 0.21–0.61), and transient non-community water systems also had lower odds (OR = 0.51, 95% CI: 0.39–0.68). Overall, these results suggest that rural systems may face greater challenges in maintaining drinking water compliance, even after accounting for system size and system type.</p>
 <div class="cell">
+<div id="tbl-logistic-results" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-logistic-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3: Adjusted odds ratios for drinking water violation risk
+</figcaption>
+<div aria-describedby="tbl-logistic-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<caption>Odds ratios and 95% confidence intervals from logistic regression predicting at least one violation</caption>
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;">Predictor</th>
@@ -425,26 +374,35 @@ ul.task-list li input[type="checkbox"] {
 </table>
 </div>
 </div>
-<p>Figure _ displays odds ratios and 95% confidence intervals from the multivariable logistic regression, showing associations between rural status, population served, water system type, and violation likelihood.</p>
+</figure>
+</div>
+</div>
 <div class="cell">
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="Manuscript1_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="960"></p>
+<p><img src="Manuscript1_files/figure-html/log-system-types-1.png" class="img-fluid figure-img" width="864"></p>
+<figcaption>Figure 3: Odds Ratio for Logistic Regression Predictors</figcaption>
 </figure>
 </div>
 </div>
 </div>
+<p>Figure 3 displays odds ratios and 95% confidence intervals from the multivariable logistic regression, showing associations between rural status, population served, water system type, and violation likelihood.</p>
 </section>
 <section id="model-performance-section" class="level2" data-number="4.7">
 <h2 data-number="4.7" class="anchored" data-anchor-id="model-performance-section"><span class="header-section-number">4.7</span> Model Performance Section</h2>
-<p>The logistic regression model was evaluated using a 70/30 train-test split to assess its performance on unseen data. On the held-out test dataset, the model achieved a classification accuracy of 91.4%. However, this high level of accuracy is largely driven by class imbalance in the outcome, as approximately 91.5% of public water systems in the dataset did not experience any drinking water violations. As a result, overall accuracy primarily reflects correct classification of the majority class rather than strong predictive performance for identifying systems that experience violations.</p>
+<p>The logistic regression model was evaluated using a 70/30 train-test split to assess its performance on unseen data. On the held-out test dataset, the model achieved a classification accuracy of 0.914. However, this high level of accuracy is largely driven by class imbalance in the outcome, as approximately 91.5% of public water systems in the dataset did not experience any drinking water violations. As a result, overall accuracy primarily reflects correct classification of the majority class rather than strong predictive performance for identifying systems that experience violations.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.9143357</code></pre>
+<pre><code>[1] 0.914</code></pre>
 </div>
 </div>
-<p>To better assess the model’s ability to distinguish between systems with and without drinking water violations, the area under the receiver operating characteristic curve (AUC) was calculated. The model achieved an AUC of 0.63, indicating modest discriminatory ability. While this performance is better than random classification, it suggests limited effectiveness in separating systems that experience violations from those that do not. Overall, the results indicate that the model captures some signal associated with violation risk, but predictive performance is constrained, likely due to unmeasured factors influencing drinking water violations.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.633</code></pre>
+</div>
+</div>
+<p>To better assess the model’s ability to distinguish between systems with and without drinking water violations, the area under the receiver operating characteristic curve (AUC) was calculated. The model achieved an AUC of 0.633, indicating modest discriminatory ability. While this performance is better than random classification, it suggests limited effectiveness in separating systems that experience violations from those that do not. Overall, the results indicate that the model captures some signal associated with violation risk, but predictive performance is constrained, likely due to unmeasured factors influencing drinking water violations.</p>
 </section>
 <section id="calibration-and-confusion-matrix-assessment" class="level2" data-number="4.8">
 <h2 data-number="4.8" class="anchored" data-anchor-id="calibration-and-confusion-matrix-assessment"><span class="header-section-number">4.8</span> Calibration and Confusion Matrix Assessment</h2>
@@ -453,8 +411,11 @@ ul.task-list li input[type="checkbox"] {
 <div class="cell-output cell-output-stdout">
 <pre><code>         Actual
 Predicted    0    1
-        0 1046   98</code></pre>
+        0 1046   98
+        1    0    0</code></pre>
 </div>
+</div>
+<div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0</code></pre>
 </div>
@@ -462,20 +423,7 @@ Predicted    0    1
 <pre><code>[1] 1</code></pre>
 </div>
 </div>
-<p>Sensitivity and specificity provide additional insight into model behavior beyond overall accuracy. The model demonstrates higher specificity than sensitivity, indicating it is better at correctly identifying systems without violations than correctly detecting systems that do experience violations. This pattern is expected given the imbalance in the outcome distribution and suggests that additional modeling strategies or feature engineering may be needed to improve detection of higher-risk systems.</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>
-Call:
-roc.default(response = test$any_violation, predictor = test$pred)
-
-Data: test$pred in 1046 controls (test$any_violation 0) &lt; 98 cases (test$any_violation 1).
-Area under the curve: 0.6332</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Area under the curve: 0.6332</code></pre>
-</div>
-</div>
+<p>The model demonstrated higher specificity than sensitivity, indicating stronger performance in identifying systems without violations compared to those experiencing violations. This pattern is expected given the imbalance in the outcome distribution and suggests that additional predictors or modeling strategies may be needed to improve detection of high-risk systems.</p>
 </section>
 </section>
 <section id="discussion" class="level1" data-number="5">
@@ -484,7 +432,7 @@ Area under the curve: 0.6332</code></pre>
 <p>In addition to rural-uran differences, system-level characteristics also have an important role. Larger systems demonstrated higher odds of violations, which may reflect increase regulatory scrutiny or more complex operational demands. Conversely, non-community water systems exhibited lower odds of violations compared to community systems, potentially due to differences in regulatoray requirements or patterns of water use.</p>
 <p>Despite identifying significant associations, the predictive performance of the models was modest, with an AUC of 0.63. This suggests that while rural status and system characteristics contribute to violation risk, additional unmeasured factors such as funding availability, infrastructure age, or management capacity likely influence compliance outcomes. The model’s lower sensitivity further indicates limited ability to identify systems at highest risk for violations.</p>
 <p>Several limitations should be considered. First, the use of the administrative data may introduce measurement error or inconsistencies in reporting violations. Second, rural classification based on ZIP code-level RUCA codes may not fully capture variation within service areas. Third, systems with missing RUCA classifications were excluded, which may affect generalizability. Finally, the cross-sectional nature of the analysis limits causal interpretation.</p>
-<p>Overall, these findings highlight persistent rural–urban disparities in drinking water system compliance in Georgia. Targeted policy and resource allocation strategies aimed at supporting rural water systems may be necessary to reduce these inequities and ensure equitable access to safe drinking water. Future research should explore additional system-level and contextual factors to better understand drivers of violation risk and improve predictive modeling efforts. in study population is there any way to add like a table under this, that might be representative of the study population, a table summary that might be helpful</p>
+<p>Overall, these findings highlight persistent rural–urban disparities in drinking water system compliance in Georgia. Targeted policy and resource allocation strategies aimed at supporting rural water systems may be necessary to reduce these inequities and ensure equitable access to safe drinking water. Future research should explore additional system-level and contextual factors to better understand drivers of violation risk and improve predictive modeling efforts.</p>
 </section>
 
 </main>
