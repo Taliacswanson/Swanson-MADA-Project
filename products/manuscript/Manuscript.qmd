@@ -11,7 +11,8 @@ execute:
   warning: false
   message: false
 bibliography: assets/references/references.bib
-
+resources:
+  - assets/references/
 ---
 
 # Abstract
