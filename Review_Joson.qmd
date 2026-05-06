@@ -1,0 +1,163 @@
+---
+title: Project Review 
+author: Emil Joson
+date: 5/03/2026
+format: 
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+---
+
+# Overview
+
+Title of project: An Analysis of Rural-Urban Difference in Drinking Water System Violations in Georgia
+
+Name of project author(s): Talia C. Swanson
+
+Name of project reviewer: Emil Joson
+
+
+
+# Specific project content evaluation
+Evaluate the different parts of the project by filling in the sections below.
+
+
+## Background, Context and Motivation
+How well is the context of the project described? Is a comprehensive background, including summary of previous/related work given? Is the project well placed into the context of existing work (including proper referencing of existing work). Is it clear why the project was undertaken and what new information it hopes to provide?
+
+### Feedback and Comments
+
+The project does a pretty good job explaining the background and why the topic matters. It clearly shows that safe drinking water is important and that there are known differences between rural and urban areas, which helps set up the study. It also brings in previous research, but it doesn’t go into a lot of detail about those studies, and some of the references seem a bit incomplete (they didn't render for me and upon investigating, I found the references.bib file to be empty but that could be something wrong on my end because I found the references.bib file on their repo to contain info), which makes that part feel a little weaker. Still, it’s clear why the study was done. Overall, the context is solid, even if the connection to past research could be explained a bit more.
+
+### Summary assessment (PICK ONE, DELETE THE OTHERS)
+* strong contextualization and motivation
+
+
+## Question description
+How well and clear are the question(s)/hypotheses the project aims to address described? Is it clear how the questions relate to the data?
+
+
+### Feedback and Comments
+
+The research question is clear and easy to follow. It’s obvious that the goal is to see whether rural water systems in Georgia have more violations than urban ones, and the outcome and main predictor are both defined in a straightforward way. It also helps that they mention other factors like population size and system type, since that shows they’re thinking about what else might affect the results. Overall, the question fits well with the data they’re using, and it’s easy to see how everything connects.
+
+### Summary assessment
+* question/hypotheses fully clear
+
+
+## Data description
+How well is the data overall described? Is the source provided? Is a codebook or other meta-information available that makes it clear what the data is? 
+
+### Feedback and Comments
+
+The data is described pretty clearly overall, and it’s easy to understand what was used in the analysis. The source is explicitly stated (SDWIS from the EPA), which is good, and they explain what kind of information comes from each dataset, like system characteristics and violation records. The definitions of the main variables, including the outcome, predictor, and covariates, are also straightforward and make sense. Overall though, there’s enough information to understand where the data came from and what it represents, even if a bit more detail would make it easier to fully reproduce the analysis.
+
+### Summary assessment
+* source and overall structure of data well explained
+
+
+## Data wrangling and exploratory analysis
+How well is the data cleaned/processed and explored? Are all steps reasonable and well explained? Are alternatives discussed and considered? Are meaningful exploratory results shown (e.g. in the supplementary materials)?
+
+### Feedback and Comments
+
+The data cleaning and processing steps are generally reasonable and follow a logical order, like aggregating violations, merging datasets, and creating the main variables for analysis. It’s helpful that the code shows each step, so you can kind of follow how the final dataset was built . There is an early part of the analysis.qmd code though commented with "IDK LOOK AT THIS PLEASE would it be if else or replace" which looks like attempts at fixing missing values. Overall, the steps make sense, and the exploration looks thorough.
+
+### Summary assessment
+* some weaknesses in wrangling and exploratory component
+
+## Appropriateness of Analysis
+Were the analysis methods appropriate for the data? Was the analysis done properly? Were different components of the analysis (e.g. performance measure, variable selection, data pre-processing, model evaluation) done in the best way possible and explained well?
+
+### Feedback and Comments
+
+The analysis methods are generally appropriate for the type of data and the research question. Using logistic regression makes sense since the outcome is binary (whether a system had a violation or not), and including variables like system type and population served shows good consideration of potential confounders. The preprocessing steps, like aggregating violations and log-transforming population, are also reasonable. The model evaluation is a nice addition (accuracy, sensitivity, specificity, AUC), but it isn’t really explained in detail or tied back to the research question, so it feels a bit surface-level. There’s also not much discussion of why certain modeling choices were made or whether other approaches were considered. Overall, the analysis is solid and makes sense, but it could be explained more clearly and cleaned up to feel more complete and intentional. Additionally, there were sections of the code that could be looked over. For example, variable names should be verified (e.g., analysis.qmd: log population vs log_population)
+
+
+### Summary assessment
+* strong and reasonable analysis
+
+## Presentation
+How well are results presented? Are tables and figures easy to read and understand? Are the main figures/tables publication level quality? 
+
+### Feedback and Comments
+
+The results are presented pretty clearly overall, and it’s easy to follow the main findings, especially the key result that rural systems have higher odds of violations. The figures and tables help support the text, like the bar plot of system types and the histogram of population served, which are generally easy to understand. The odds ratio table and forest plot are also useful for interpreting the regression results. That said, some parts could be improved. There are a few formatting issues in the tables (like spacing and labels), and one figure is referenced but not clearly labeled in the text. In fact, figures aren't labeled at all. Despite this, the results are understandable and do a good job communicating the findings, but they’re not quite at publication-level quality yet and could benefit from some polishing and clearer formatting.
+
+### Summary assessment
+* results are presented ok, with room for improvement
+
+
+
+## Discussion/Conclusions
+Are the study findings properly discussed? Are strengths and limitations acknowledged? Are findings interpreted properly?
+
+### Feedback and Comments
+
+The discussion does a good job of explaining the main findings and tying them back to the research question. It clearly highlights that rural systems have higher odds of violations and connects this to possible real-world reasons like infrastructure and resource limitations, which makes the interpretation feel reasonable. It also does a nice job acknowledging several limitations, like potential issues with administrative data, the use of RUCA codes, and the cross-sectional design . All in all, the findings are interpreted appropriately, and the discussion is solid with only some minor areas that could be expanded
+
+### Summary assessment
+* strong, complete and clear discussion
+
+
+
+
+
+# Overall project content evaluation
+Evaluate overall features of the project  by filling in the sections below.
+
+
+## Structure
+Is the project well structured? Are files in well labeled folders? Do files have reasonable names? Are all "junk" files not needed for analysis/reproduction removed? By just looking at files and folders, can you get an idea of how things fit together?
+
+### Feedback and Comments
+
+The project overall seems pretty well structured and easy to follow. The use of folders like raw data and processed data makes it clear how the workflow is organized, and the file names are generally descriptive enough to understand what each file is doing. 
+
+### Summary assessment
+* well structured
+
+
+## Documentation 
+How well is the project documented? Are you able to understand each step of the whole analysis, each decision that was made, and each line of code? Is enough information provided as comments in code or as part of Rmd files? 
+
+### Feedback and Comments
+
+The project is fairly well documented, and it’s generally possible to follow what’s happening at each step of the analysis. The code walks through the workflow in a logical way, with section headers and short explanations that make it easier to understand how the dataset is built and how the model is run. There are also a few spots in the code with informal comments or leftover notes that make it feel a bit unfinished. Overall, the documentation is solid enough to understand the main steps, but adding a bit more detail and cleaning up comments would make it clearer and more polished.
+
+### Summary assessment
+* decently documented with some gaps
+
+
+
+
+## Reproducibility
+Are all results fully reproducible? Is documentation provided which clearly explains how to reproduce things, and does it work without the need for any manual intervention? Are you able to re-run the whole analysis without having to do manual interventions/edits?
+
+### Feedback and Comments
+
+I was able to reproduce everything from the manuscript.qmd alone and the github repo itself contains clear instructions how to reproduce everything.
+
+### Summary assessment
+* fully reproducible without issues
+
+
+## Thoroughness
+How thorough was the overall study? Were alternatives (e.g. different ways of processing the data or different models) considered? Were alternatives discussed? Were the questions/hypotheses fully and thoroughly addressed?
+
+### Feedback and Comments
+
+The study is fairly thorough in terms of addressing the main research question, and it does a good job walking through the full workflow from data processing to modeling and interpretation. However, alternatives were not openly discussed. 
+
+### Summary assessment
+* decent level of thoroughness
+
+
+
+
+
+
+
+
+
