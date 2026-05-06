@@ -10,8 +10,8 @@ is rural versus urban classification of the system's service area. Multivariable
 ## Repository structure
 `data/raw-data/` --> Original datasets 
 `data/processed-data/` --> Cleaned dataset used for analysis 
-`code/analysis-code/` --> Main analysis scripts 
-`code/eda-code/` --> Exploratory data analysis scripts 
+`code/02_analysis-code/` --> Main analysis scripts 
+`code/01_eda-code/` --> Exploratory data analysis scripts 
 `manuscript/` --> Final Quarto manuscripts 
 `output/` --> figures and tables 
 
@@ -36,9 +36,9 @@ install.packages(c("tidyverse", "ggplot2", "dplyr", "readr", "broom", "knitr", "
 2. Open the .Rproj file in RStudio.
 3. Ensure all raw data are located in "data/raw-data/"
 4. Run the exploratory analysis:
-code/eda-code/edqa.qmd 
+code/01_eda-code/edqa.qmd 
 5. Run the manin analysis:
-code/analysis-code/analysis.qmd 
+code/02_analysis-code/analysis.qmd 
 6. Render manuscript:
 quarto render manuscript/manuscript.qmd 
 
