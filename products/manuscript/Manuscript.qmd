@@ -190,7 +190,6 @@ systems_ga_filtered %>%
   )
 ```
 
-
 ```{r}
 violations <- read_csv(here("data", "raw-data", "SDWA_PN_VIOLATION_ASSOC.csv"))
 ```
