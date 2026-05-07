@@ -163,7 +163,7 @@ Figure&nbsp;1: Distribution of public water system types in Georgia
 <p style="font-size: 0.9em; color: #555;">
 <em>Footnote.</em> CWS = Community Water System; NTNCWS = Non-Transient Non-Community Water System; TNCWS = Transient Non-Community Water System.
 </p>
-<p>The distribution of population served varied widely across water systems. Approximately 25% of systems served fewer than 49 individuals, while 75% served fewer than 262 individuals, indicating that many systems in Georgia serve relatively small populations.</p>
+<p>In Figure 2, the distribution of population served varied widely across water systems. Approximately 25% of systems served fewer than 49 individuals, while 75% served fewer than 262 individuals, indicating that many systems in Georgia serve relatively small populations.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div id="fig-population-distribution" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -182,7 +182,7 @@ Figure&nbsp;2: Distribution of population served by public water systems in Geor
 <div id="tbl-violation-distribution" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-violation-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;1: Distribution of drinking water violations across public water systems in Georgia
+Table&nbsp;1: Distribution of Drinking Water Violations Across Public Water Systems in Georgia
 </figcaption>
 <div aria-describedby="tbl-violation-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
@@ -281,10 +281,11 @@ Table&nbsp;1: Distribution of drinking water violations across public water syst
 </figure>
 </div>
 </div>
-<p>The majority of public water systems had no recorded drinking water violations. However, a smaller subset of systems experienced one or more violations, indicating that violations were relatively uncommon overall but still present across multiple systems.</p>
+<p>Table 1 presents the distribution of drinking water violation counts across public water systems in Georgia. The majority of systems experienced a small number of violations, with most systems reporting between 1 and 4 violations. The most common value was 1 violation (n = 210 systems).</p>
+<p>In contrast, a smaller number of systems experienced substantially higher violation counts, with values extending up to 71 violations. The distribution is right-skewed, with relatively few systems accounting for the highest counts. This indicates substantial variability in violation counts across systems.</p>
 <section id="inferential-analysis" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="inferential-analysis"><span class="header-section-number">4.1</span> Inferential Analysis</h2>
-<p>Moving forward to formally evaluate whether rural public water systems in Georgia are more likely to experience drinking water violations compared to urban systems, a multivariable logistic regression model was fit. The outcome of interest was whether a system experienced at least one violation. The primary predictor of interest was rural versus urban classification. The model additionally adjusted for population served and water system type to account for potential confounding.</p>
+<p>To formally evaluate whether rural public water systems in Georgia are more likely to experience drinking water violations compared to urban systems, a multivariable logistic regression model was fit. The outcome of interest was whether a system experienced at least one violation. The primary predictor of interest was rural versus urban classification. The model additionally adjusted for population served and water system type to account for potential confounding.</p>
 </section>
 <section id="creating-system-level-violation-counts" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="creating-system-level-violation-counts"><span class="header-section-number">4.2</span> Creating System-Level Violation Counts</h2>
@@ -331,7 +332,7 @@ Table&nbsp;2: Distribution of rural and urban public water systems in Georgia.
 </figure>
 </div>
 </div>
-<p>Systems with missing RUCA classification were excluded from subsequent analyses. After exclusion, the final analytical sample included 3,389 public water systems, of which 1,653 were classfifie as rural and 2,186 as urban.</p>
+<p>Table 2 presents the distribution of rural and urban public water systems in Georgia. Of the total systems identified, 1,417 had missing Rural-Urban Commuting (RUCA) classifications and were excluded from subsequent analyses. The final analytical sample included 3,839 public water systems, of which 1,653 were classified as a rural and 2,186 as urban.</p>
 </section>
 <section id="creation-and-preparation-of-variables" class="level2" data-number="4.5">
 <h2 data-number="4.5" class="anchored" data-anchor-id="creation-and-preparation-of-variables"><span class="header-section-number">4.5</span> Creation and Preparation of Variables</h2>
@@ -342,7 +343,8 @@ Table&nbsp;2: Distribution of rural and urban public water systems in Georgia.
 <section id="logistic-regression" class="level2" data-number="4.6">
 <h2 data-number="4.6" class="anchored" data-anchor-id="logistic-regression"><span class="header-section-number">4.6</span> Logistic Regression</h2>
 <p>Results from the multivariable logistic regression indicated that rural public water systems had higher odds of experiencing at least one drinking water violation compared with urban systems (OR = 1.84, 95% CI: 1.46–2.33). Larger systems also had slightly higher odds of violations, with an odds ratio of 1.15 per unit increase in log-transformed population served (95% CI: 1.08–1.22).</p>
-<p>Compared with community water systems, non-transient non-community water systems had substantially lower odds of violations (OR = 0.37, 95% CI: 0.21–0.61), and transient non-community water systems also had lower odds (OR = 0.51, 95% CI: 0.39–0.68). Overall, these results suggest that rural systems may face greater challenges in maintaining drinking water compliance, even after accounting for system size and system type.</p>
+<p>Compared with community water systems, non-transient non-community water systems had substantially lower odds of violations (OR = 0.37, 95% CI: 0.21–0.61), while transient non-community water systems also demonstrated lower odds (OR = 0.51, 95% CI: 0.39–0.68).</p>
+<p>Overall, rural public water systems remained significantly more likely to experience drinking water violations after adjusting for population served and system type.</p>
 <div class="cell">
 <div id="tbl-logistic-results" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
